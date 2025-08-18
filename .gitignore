@@ -1,0 +1,27 @@
+# =====================
+# Root-level common ignores
+# =====================
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# =====================
+# client/ (React)
+# =====================
+client/node_modules/
+client/build/
+
+# =====================
+# server/ (Node.js)
+# =====================
+server/node_modules/
+server/dist/
+server/.env

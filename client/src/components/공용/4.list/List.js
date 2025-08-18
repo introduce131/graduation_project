@@ -1,0 +1,138 @@
+import { useEffect, useState } from "react";
+import css from "../../../css/style.scss";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import useLocationStore from "../../../store/useLocationStore";
+import axios from "axios";
+
+const FIXED_CATEGORIES = [
+  "한식", "중식", "일식", "양식",
+  "치킨", "고기", "분식", "카페", "디저트"
+];
+
+// 거리 포맷 함수
+const formatDistance = (d) => {
+  const num = parseFloat(d);
+  if (isNaN(num)) return "";
+  return num >= 1000 ? `${(num / 1000).toFixed(1)} km` : `${Math.round(num)} m`;
+};
+
+function List() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const defaultCategory = searchParams.get("category") || "";
+  const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
+  const location = useLocationStore((state) => state.location);
+  const latitude = location?.lat;
+  const longitude = location?.lng;
+
+  const [stores, setStores] = useState([]);
+
+  // 서버 상태 확인 (ping)
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/ping").catch(() => {});
+  }, []);
+
+  const fetchStoresByCategory = async (category) => {
+    if (!latitude || !longitude) {
+      console.warn("위치 정보가 아직 없습니다.");
+      return;
+    }
+
+    try {
+      const params = {
+        lat: parseFloat(latitude),
+        lng: parseFloat(longitude),
+        category_group: category,
+        radius: 5000,
+      };
+      console.log("요청 파라미터:", params);
+
+      const res = await axios.get("http://localhost:5000/api/restaurants", { params });
+
+      console.log("API 응답:", res.data);
+
+      const result = Array.isArray(res.data) ? res.data : [];
+      if (!result.length) {
+        console.warn("받은 데이터가 비어 있습니다.");
+      }
+
+      setStores(result);
+    } catch (err) {
+      console.error("API 요청 실패:", err);
+    }
+  };
+
+  // 초기 카테고리 선택 시 데이터 요청
+  useEffect(() => {
+    if (defaultCategory && FIXED_CATEGORIES.includes(defaultCategory) && latitude && longitude) {
+      setSelectedCategory(defaultCategory);
+      fetchStoresByCategory(defaultCategory);
+    }
+  }, [defaultCategory, latitude, longitude]);
+
+  return (
+    <div className="list-wrap">
+      <h1>오늘의 맛집 추천</h1>
+
+      <div className="category-btns">
+        {FIXED_CATEGORIES.map((cat) => (
+          <button
+            key={cat}
+            className={selectedCategory === cat ? "btn active" : "btn"}
+            onClick={() => {
+              setSelectedCategory(cat);
+              navigate(`?category=${cat}`);
+              fetchStoresByCategory(cat);
+            }}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {stores.length === 0 ? (
+        <p style={{ marginTop: "20px", textAlign: "center" }}>결과가 없습니다.</p>
+      ) : (
+        <ul>
+  {stores.map((store) => (
+    <li key={store.id || store.place_id}>
+      <Link to="/products" state={{ store }}>
+      <div className="img_wrap">
+          {store.thumbnail ? (
+            <img 
+              src={store.thumbnail} 
+              alt={store.title}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23eee'/%3E%3Ctext x='50%' y='50%' font-size='16' text-anchor='middle' dominant-baseline='middle' fill='%23666'%3E이미지 없음%3C/text%3E%3C/svg%3E";
+              }}
+            />
+          ) : (
+            <div className="no_image">
+              <svg viewBox="0 0 100 100">
+                <rect width="100" height="100" fill="#eee" />
+                <text x="50%" y="50%" font-size="16" text-anchor="middle" dominant-baseline="middle" fill="#666">이미지 없음</text>
+              </svg>
+            </div>
+          )}
+        </div>
+        <div className="info">
+          <p className="title">{store.place_name}</p>
+          <p className="sort">
+            {Array.isArray(store.category)
+              ? store.category.join(", ")
+              : store.category || ""}
+            {store.distance && ` / ${formatDistance(store.distance)}`}
+          </p>
+          <p className="review">리뷰 수: {store.reviewCount || 0}</p>
+        </div>
+      </Link>
+    </li>
+  ))}
+</ul>
+      )}
+    </div>
+  );
+}
+
+export default List;

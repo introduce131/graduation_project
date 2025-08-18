@@ -1,0 +1,27 @@
+
+
+.pop_wrap{
+    
+    .info_wrap{
+        width: 350px;
+        
+        img{
+            display: block;
+            width: 100%;
+            border-radius: 10px;
+        }
+    
+        .info{
+            padding: 15px;
+            .title{
+                font-weight: 700;
+                font-size: 16px;
+            }
+    
+            p{
+                margin-top: 8px;
+            }
+        }
+    
+    }
+}
