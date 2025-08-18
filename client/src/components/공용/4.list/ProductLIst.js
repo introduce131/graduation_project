@@ -4,8 +4,7 @@ import axios from "axios";
 import Header from "../1.header/Header";
 import Footer from "../3.footer/Footer";
 import css from "./../../../css/ProductList.scss";
-import { FaHeart, FaRegHeart } from "react-icons/fa"; // 하트 아이콘 임포트
-//npm install react-icons
+import { FaHeart, FaRegHeart, FaInfoCircle, FaTimes, FaClock } from "react-icons/fa";
 
 function ProductList() {
   const location = useLocation();
@@ -14,9 +13,10 @@ function ProductList() {
   const [menu, setMenu] = useState([]);
   const [loadingHours, setLoadingHours] = useState(true);
   const [loadingMenu, setLoadingMenu] = useState(true);
-  const [isFavorite, setIsFavorite] = useState(false); // 찜 상태
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [showHoursModal, setShowHoursModal] = useState(false);
 
-  // 찜 상태 확인 (로컬 스토리지에서)
+  // 찜 상태 확인
   useEffect(() => {
     if (store?.place_id) {
       const favorites = JSON.parse(localStorage.getItem("myfavorites")) || [];
@@ -29,11 +29,9 @@ function ProductList() {
     const favorites = JSON.parse(localStorage.getItem("myfavorites")) || [];
     
     if (isFavorite) {
-      // 제거
       const updatedFavorites = favorites.filter(fav => fav.place_id !== store.place_id);
       localStorage.setItem("myfavorites", JSON.stringify(updatedFavorites));
     } else {
-      // 추가
       const newFavorite = {
         place_id: store.place_id,
         place_name: store.place_name,
@@ -51,13 +49,9 @@ function ProductList() {
   useEffect(() => {
     if (store?.place_id) {
       setLoadingHours(true);
-      axios
-        .get(`http://localhost:5000/api/restaurant/${store.place_id}/hours`)
+      axios.get(`http://localhost:5000/api/restaurant/${store.place_id}/hours`)
         .then((res) => setHours(res.data || []))
-        .catch((err) => {
-          console.error("영업시간 불러오기 실패:", err.response?.data || err.message);
-          setHours([]);
-        })
+        .catch(() => setHours([]))
         .finally(() => setLoadingHours(false));
     }
   }, [store?.place_id]);
@@ -66,19 +60,20 @@ function ProductList() {
   useEffect(() => {
     if (store?.place_id) {
       setLoadingMenu(true);
-      axios
-        .get(`http://localhost:5000/api/restaurant/${store.place_id}`)
+      axios.get(`http://localhost:5000/api/restaurant/${store.place_id}`)
         .then((res) => {
-          const data = res.data || {};
-          setMenu(Array.isArray(data.menu) ? data.menu : []);
+          const { restaurant, menu } = res.data;
+          setMenu(Array.isArray(menu) ? menu : []);
         })
         .catch((err) => {
-          console.error("메뉴 불러오기 실패:", err.response?.data || err.message);
+          console.error("식당 상세 불러오기 실패:", err);
+          alert("식당 데이터를 불러오는 데 실패했습니다.");
           setMenu([]);
         })
         .finally(() => setLoadingMenu(false));
     }
   }, [store?.place_id]);
+  
 
   if (!store) {
     return <p>가게 정보를 불러올 수 없습니다.</p>;
@@ -88,6 +83,7 @@ function ProductList() {
     <>
       {/* <Header/> */}
       <div className="section">
+        {/* 가게 정보 섹션 */}
         <div className="info_wrap">
           <div className="store_img_frame">
             {store.thumbnail ? (
@@ -95,7 +91,7 @@ function ProductList() {
             ) : (
               "이미지 없음"
             )}
-            {/* 하트 아이콘 */}
+           {/* 하트 아이콘 */}
             <button 
               onClick={toggleFavorite}
               style={{
@@ -118,9 +114,18 @@ function ProductList() {
               {Array.isArray(store.category) ? store.category.join(", ") : store.category || ""} /{" "}
               <span>리뷰 {store.reviewCount || 0}</span>
             </p>
+            
+            {/* 운영시간 버튼 */}
+            <button 
+              onClick={() => setShowHoursModal(true)}
+              className="hours-button"
+            >
+              <FaClock /> 운영시간 
+            </button>
           </div>
         </div>
 
+        {/* 메뉴 섹션 */}
         <div className="menu_wrap">
           <h2>가장 인기 있는 메뉴</h2>
           <p>최근 많은 분들이 주문한 메뉴</p>
@@ -141,7 +146,7 @@ function ProductList() {
                     </div>
                     <div className="menu_info">
                       <h3>{item.menu_name}</h3>
-                      <p>{item.menu_price}원</p>
+                      <p>{item.menu_price.toLocaleString()}원</p>
                     </div>
                   </Link>
                 </li>
@@ -153,6 +158,41 @@ function ProductList() {
         </div>
       </div>
       <Footer />
+
+      {/* 운영시간 모달 */}
+      {showHoursModal && (
+        <div className="modal-overlay">
+          <div className="hours-modal">
+            <div className="modal-header">
+              <h3><FaClock /> {store.place_name} 운영시간</h3>
+              <button 
+                onClick={() => setShowHoursModal(false)}
+                className="close-button"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            
+            <div className="modal-content">
+              {loadingHours ? (
+                <p>영업시간 정보를 불러오는 중...</p>
+              ) : hours.length > 0 ? (
+                <ul>
+                  {hours.map((time, index) => (
+                    <li key={index}>
+                      <strong>{time.day}</strong>: {time.start && time.end ? 
+                        `${time.start} ~ ${time.end}` : "휴무"}
+                      {time.lastOrder && ` (라스트오더: ${time.lastOrder})`}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>영업시간 정보가 없습니다.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
