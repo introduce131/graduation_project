@@ -43,7 +43,7 @@ function List() {
         lat: parseFloat(latitude),
         lng: parseFloat(longitude),
         category_group: category,
-        radius: 5000,
+        radius: 10000,
       };
       console.log("요청 파라미터:", params);
 
@@ -111,7 +111,7 @@ function List() {
             <div className="no_image">
               <svg viewBox="0 0 100 100">
                 <rect width="100" height="100" fill="#eee" />
-                <text x="50%" y="50%" font-size="16" text-anchor="middle" dominant-baseline="middle" fill="#666">이미지 없음</text>
+                <text x="50%" y="50%" fontSize="16" textAnchor="middle" dominantBaseline="middle" fill="#666">이미지 없음</text>
               </svg>
             </div>
           )}
@@ -124,7 +124,7 @@ function List() {
               : store.category || ""}
             {store.distance && ` / ${formatDistance(store.distance)}`}
           </p>
-          <p className="review">리뷰 수: {store.reviewCount || 0}</p>
+          {/* <p className="review">리뷰 수: {store.reviewCount || 0}</p> */}
         </div>
       </Link>
     </li>

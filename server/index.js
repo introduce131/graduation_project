@@ -41,7 +41,7 @@ app.get("/api/restaurants", async (req, res) => {
     const response = await axios.get(`${PY_API_BASE}/restaurants`, { params });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /restaurants error:", error.response?.data || error.message);
+    console.error(" /restaurants error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
       error: "Failed to fetch from FastAPI /restaurants",
       details: error.response?.data || error.message,
@@ -55,7 +55,7 @@ app.get("/api/restaurant/:place_id", async (req, res) => {
     const response = await axios.get(`${PY_API_BASE}/restaurant/${req.params.place_id}`);
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /restaurant/:place_id error:", error.response?.data || error.message);
+    console.error(" /restaurant/:place_id error:", error.response?.data || error.message);
     res.status(500).json({
       error: "식당 상세 정보를 불러오는 데 실패했습니다.",
       details: error.response?.data || error.message,
@@ -70,7 +70,7 @@ app.get("/api/restaurant/:business_id/hours", async (req, res) => {
     const response = await axios.get(`${PY_API_BASE}/restaurant/${req.params.business_id}/hours`);
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /restaurant/:business_id/hours error:", error.response?.data || error.message);
+    console.error(" /restaurant/:business_id/hours error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
       error: "Failed to fetch from FastAPI /restaurant/:business_id/hours",
       details: error.response?.data || error.message,
@@ -88,7 +88,7 @@ app.get("/api/menu", async (req, res) => {
     const response = await axios.get(`${PY_API_BASE}/menu`, { params: req.query });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /menu error:", error.response?.data || error.message);
+    console.error(" /menu error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
       error: "Failed to fetch from FastAPI /menu",
       details: error.response?.data || error.message,
