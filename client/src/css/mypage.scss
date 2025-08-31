@@ -1,0 +1,200 @@
+.user-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 50px 20px;
+  height: 100vh; /* 스크롤 없이 항상 화면 채움 */
+  font-family: 'Noto Sans KR', sans-serif;
+  box-sizing: border-box;
+  overflow: hidden; /* 스크롤 제거 */
+
+  .user-profile-card {
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+
+    .profile-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: #222;
+    }
+
+    .profile-info {
+      .info-item {
+        margin-bottom: 20px;
+
+        label {
+          display: block;
+          font-weight: 500;
+          margin-bottom: 6px;
+          color: #555;
+        }
+
+        .value {
+          font-size: 16px;
+          color: #333;
+        }
+
+        .guest-notice {
+          font-size: 13px;
+          color: #ff5e5e;
+        }
+      }
+
+      .edit-form {
+        .input-group {
+          margin-bottom: 15px;
+
+          input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.2s;
+
+            &:focus {
+              border-color: #ff5e5e;
+              outline: none;
+            }
+          }
+
+          label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+            color: #555;
+          }
+        }
+
+        .form-buttons {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 20px;
+
+          .cancel-btn,
+          .save-btn {
+            flex: 1;
+            padding: 10px 0;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+          }
+
+          .cancel-btn {
+            background-color: #e0e0e0;
+            color: #555;
+            margin-right: 10px;
+
+            &:hover { background-color: #d5d5d5; }
+          }
+
+          .save-btn {
+            background-color: #ff5e5e;
+            color: #fff;
+
+            &:hover { background-color: #e14b4b; }
+          }
+        }
+      }
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+
+      &.success { color: #2ecc71; }
+      &.error { color: #e74c3c; }
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      margin-top: 25px;
+
+      button {
+        width: 100%;
+        padding: 12px 0;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 12px;
+        transition: 0.2s;
+
+        &.edit-btn { background-color: #ff5e5e; color: #fff; }
+        &.convert-btn { background-color: #fff; color: #ff5e5e; border: 1px solid #ff5e5e; }
+        &.logout-btn { background-color: #f86b6b; color: #fff; }
+
+        &:hover { opacity: 0.9; }
+      }
+    }
+  }
+
+  // 태블릿용 (768px 이하)
+  @media (max-width: 768px) {
+    padding: 40px 15px;
+
+    .user-profile-card {
+      max-width: 360px;
+      padding: 35px 25px;
+
+      .profile-title { font-size: 26px; margin-bottom: 25px; }
+
+      .profile-info {
+        .info-item {
+          .value { font-size: 15px; }
+          .guest-notice { font-size: 12px; }
+        }
+
+        .edit-form {
+          .input-group { input { font-size: 13px; padding: 8px 10px; } label { font-size: 13px; } }
+          .form-buttons { flex-direction: column;
+
+            .cancel-btn, .save-btn { margin-right: 0; margin-bottom: 10px; padding: 10px 0; }
+          }
+        }
+      }
+
+      .action-buttons { button { font-size: 15px; padding: 11px 0; } }
+    }
+  }
+
+  // 모바일용 (480px 이하)
+  @media (max-width: 480px) {
+    padding: 20px 10px;
+
+    .user-profile-card {
+      max-width: 300px;
+      padding: 30px 15px;
+      border-radius: 12px;
+
+      .profile-title { font-size: 24px; margin-bottom: 20px; }
+
+      .profile-info {
+        .info-item { 
+          .value { font-size: 14px; }
+          .guest-notice { font-size: 12px; }
+        }
+
+        .edit-form {
+          .input-group { input { font-size: 12px; padding: 7px 10px; } label { font-size: 12px; } }
+          .form-buttons { flex-direction: column;
+            .cancel-btn, .save-btn { margin-right: 0; margin-bottom: 10px; padding: 10px 0; }
+          }
+        }
+      }
+
+      .action-buttons { button { font-size: 14px; padding: 10px 0; } }
+    }
+  }
+}

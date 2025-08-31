@@ -1,0 +1,35 @@
+.category-btns {
+  display: flex;
+  flex-wrap: wrap; // 버튼이 길면 자동으로 줄바꿈
+  justify-content: flex-start; // 왼쪽 정렬
+  gap: 10px; // 버튼 사이 간격
+  padding: 10px;
+  margin-top: 20px;
+
+  > button {
+    all: unset;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 10px;
+    border-radius: 9px;
+    background-color: #f5f5f5;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+
+  > button.active {
+    background-color: #d0d0d0;
+    font-weight: bold;
+  }
+}
+
+// 반응형: 화면이 좁으면 버튼 크기 줄이기
+@media (max-width: 768px) {
+  .category-btns > button {
+    padding: 8px 16px;
+    font-size: 10px;
+  }
+}

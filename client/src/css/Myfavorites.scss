@@ -1,66 +1,78 @@
 .my-favorites-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  
-    h1 {
-      font-size: 24px;
-      margin-bottom: 30px;
-      text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .empty-message {
+    text-align: center;
+    padding: 50px 0;
+
+    p {
+      font-size: 18px;
+      margin-bottom: 20px;
     }
-  
-    .empty-message {
-      text-align: center;
-      padding: 50px 0;
-  
-      p {
-        font-size: 18px;
-        margin-bottom: 20px;
-      }
-  
-      .go-to-main {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #ff6b6b;
-        color: white;
-        border-radius: 5px;
-        text-decoration: none;
-      }
+
+    .go-to-main {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #ff6b6b;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
     }
-  
-    .favorites-list {
-      display: grid;
-      grid-template-columns: 1fr; /* 1열로 변경 */
-      gap: 20px;
-  
+  }
+
+  .favorites-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+
+    .category-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .category-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
       .favorite-item {
         border: 1px solid #e0e0e0;
         border-radius: 8px;
         overflow: hidden;
         position: relative;
         transition: transform 0.3s;
-  
+
         &:hover {
           transform: translateY(-5px);
         }
-  
+
         .store-link {
           display: flex;
           text-decoration: none;
           color: inherit;
         }
-  
+
         .store-image {
           width: 120px;
           height: 120px;
           flex-shrink: 0;
-  
+
           img {
             width: 100%;
             height: 100%;
             object-fit: cover;
           }
-  
+
           .no-image {
             width: 100%;
             height: 100%;
@@ -71,29 +83,29 @@
             color: #999;
           }
         }
-  
+
         .store-info {
           padding: 15px;
           flex-grow: 1;
-  
+
           h3 {
             margin: 0 0 5px 0;
             font-size: 18px;
           }
-  
+
           .category {
             color: #666;
             margin: 0 0 5px 0;
             font-size: 14px;
           }
-  
+
           .reviews {
             color: #666;
             margin: 0;
             font-size: 14px;
           }
         }
-  
+
         .remove-btn {
           position: absolute;
           top: 10px;
@@ -105,7 +117,7 @@
           border-radius: 5px;
           cursor: pointer;
           font-size: 12px;
-  
+
           &:hover {
             background: rgba(255, 0, 0, 0.9);
           }
@@ -113,9 +125,105 @@
       }
     }
   }
-  
+
   .loading {
     text-align: center;
     padding: 50px;
     font-size: 18px;
   }
+}
+
+/* 모바일 대응: 600px 이하 */
+@media (max-width: 600px) {
+  .my-favorites-container {
+    padding: 15px;
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .favorites-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .category-group {
+        .category-title {
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
+
+        .favorite-item {
+          display: flex;
+          flex-direction: column; /* 이미지 없이 텍스트 중심 */
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          padding: 12px;
+
+          &:hover {
+            transform: translateY(0);
+          }
+
+          .store-link {
+            display: block;
+          }
+
+          .store-image {
+            display: none; /* 이미지 숨김 */
+          }
+
+          .store-info {
+            padding: 0;
+
+            h3 {
+              font-size: 16px;
+              font-weight: 700;
+              margin-bottom: 4px;
+            }
+
+            .category {
+              font-size: 14px;
+              color: #666;
+              margin-bottom: 3px;
+            }
+
+            .reviews {
+              font-size: 12px;
+              color: #999;
+              margin-bottom: 3px;
+            }
+          }
+
+          .remove-btn {
+            position: relative;
+            top: auto;
+            right: auto;
+            align-self: flex-end;
+            margin-top: 8px;
+            font-size: 12px;
+            padding: 4px 8px;
+          }
+        }
+      }
+    }
+
+    .empty-message {
+      padding: 30px 0;
+
+      p {
+        font-size: 16px;
+      }
+
+      .go-to-main {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+    }
+
+    .loading {
+      padding: 30px;
+      font-size: 16px;
+    }
+  }
+}

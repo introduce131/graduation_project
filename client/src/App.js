@@ -12,6 +12,10 @@ import useLocationStore from "./store/useLocationStore";
 import ScrollTop from "./components/공용/ScrollTop";
 import reset from "./css/reset.css"
 import css from './css/style.scss'
+import LoginPage from './login/LoginPage';
+import SignUpPage from './login/SignUpPage';
+import LeisureList from './components/공용/4.list/LeisureList';
+import Mypage from './components/menu/Mypage';
 
 function App() {
   // 앱이 처음 시작하면 위치 값 불러오기
@@ -29,6 +33,9 @@ function App() {
       <div className="wrap">
         <ScrollTop />
         <Routes>
+          <Route path="/leisure" element={<LeisureList/>} />
+          <Route path="/signup" element={<SignUpPage/>} />
+          <Route path="/login" element={<LoginPage/>} />
           <Route path="/storeMap" element={<StoreMap/>} />
           <Route path="/" element={<Main />} />
           <Route path="/store" element={<Popular_spot />} />
@@ -36,6 +43,7 @@ function App() {
           <Route path="/budget" element={<Budget />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/Myfavorites" element={<MyFavorites />} />
+          <Route path="/mypage" element={<Mypage />} />
         </Routes>
       </div>
  

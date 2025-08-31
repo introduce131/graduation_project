@@ -19,7 +19,7 @@ function Footer() {
         <ul>
           <ImageHover defaultImg={home} hoverImg={homeHover} label="홈" to="/" />
           <ImageHover defaultImg={heart} hoverImg={heartHover} label="즐겨찾기" to="/myfavorites" />
-          <ImageHover defaultImg={compass} hoverImg={compassHover} label="코스" to="/storeMap" />
+          <ImageHover defaultImg={compass} hoverImg={compassHover} label="코스" to="/budget" />
           <ImageHover defaultImg={user} hoverImg={userHover} label="MY" to="/mypage" />
         </ul>
       </footer>

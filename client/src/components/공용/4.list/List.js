@@ -6,7 +6,7 @@ import axios from "axios";
 
 const FIXED_CATEGORIES = [
   "한식", "중식", "일식", "양식",
-  "치킨", "고기", "분식", "카페", "디저트"
+  "치킨", "고기", "분식", "카페, 디저트"
 ];
 
 // 거리 포맷 함수
@@ -96,7 +96,7 @@ function List() {
         <ul>
   {stores.map((store) => (
     <li key={store.id || store.place_id}>
-      <Link to="/products" state={{ store }}>
+      <Link to="/products" state={{ store: { ...store, type: 'restaurant' },categoryType: 'restaurant' }}>
       <div className="img_wrap">
           {store.thumbnail ? (
             <img 

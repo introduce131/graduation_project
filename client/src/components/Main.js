@@ -40,7 +40,7 @@ function Main() {
 
             <div>
               {/* <a><img src={plane}></img></a> */}
-              <Link to="leisure" className="link">
+              <Link to="/leisure" className="link">
                 <img src={plane}></img>
               </Link>
               <p>여가</p>
@@ -50,7 +50,7 @@ function Main() {
           <div className="categories_wrap_2">
             <div>
               {/* <a><img src={coffee}></img></a> */}
-              <Link to="/cuisine?category=카페" className="link">
+              <Link to="/cuisine?category=카페,%20디저트" className="link">
                 <img src={coffee}></img>
               </Link>
               <p>카페</p>
