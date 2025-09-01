@@ -5,7 +5,7 @@ import Header from "../1.header/Header";
 import Footer from "../3.footer/Footer";
 import css from "./../../../css/ProductList.scss";
 import { FaHeart, FaRegHeart, FaInfoCircle, FaTimes, FaClock, FaPhone, FaMapMarkerAlt, FaStar } from "react-icons/fa";
-
+import no_img from "../../../images/icon/no-image.jpg"
 function ProductList() {
   const location = useLocation();
   const store = location.state?.store;
@@ -337,7 +337,9 @@ const fetchNaverMenuGroups = async (placeId) => {
               <div className="img">
                 {item.image_url ? (
                   <img src={item.image_url} alt={item.menu_name} />
-                ) : "사진"}
+                ) : (
+                  <img src={no_img} alt="대체 이미지" />
+                )}
               </div>
               <div className="menu_info">
                 <h3>{item.menu_name}</h3>
