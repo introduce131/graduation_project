@@ -16,6 +16,7 @@ import LoginPage from './login/LoginPage';
 import SignUpPage from './login/SignUpPage';
 import LeisureList from './components/공용/4.list/LeisureList';
 import Mypage from './components/menu/Mypage';
+import BudgetResult from './components/budget/BudgetResult';
 
 function App() {
   // 앱이 처음 시작하면 위치 값 불러오기
@@ -33,6 +34,7 @@ function App() {
       <div className="wrap">
         <ScrollTop />
         <Routes>
+          <Route path="/result" element={<BudgetResult/>} />
           <Route path="/leisure" element={<LeisureList/>} />
           <Route path="/signup" element={<SignUpPage/>} />
           <Route path="/login" element={<LoginPage/>} />

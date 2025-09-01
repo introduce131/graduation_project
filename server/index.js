@@ -294,7 +294,122 @@ app.post("/api/action/activity", async (req, res) => {
   }
 });
 
+// // ----------------------------
+// // ✅ 식당 추천
+// // ----------------------------
+// app.post("/api/recommend/restaurant", async (req, res) => {
+//   const { user_id, lat, lng, radius = 5000, budget = null, people = 1, total_limit = 25 } = req.body;
+//   try {
+//     const response = await axios.post(`${PY_API_BASE}/recommend/restaurant`, {
+//       user_id,
+//       lat,
+//       lng,
+//       radius,
+//       budget,
+//       people,
+//       total_limit,
+//     });
+//     res.json(response.data);
+//   } catch (error) {
+//     console.error("❌ /recommend/restaurant error:", error.response?.data || error.message);
+//     res.status(error.response?.status || 500).json({
+//       error: "Failed to fetch restaurant recommendations",
+//       details: error.response?.data || error.message,
+//     });
+//   }
+// });
 
+// // ----------------------------
+// // ✅ 카페/디저트 추천
+// // ----------------------------
+// app.post("/api/recommend/cafe", async (req, res) => {
+//   const { user_id, lat, lng, radius = 5000, budget = null, people = 1, total_limit = 25 } = req.body;
+//   try {
+//     const response = await axios.post(`${PY_API_BASE}/recommend/cafe`, {
+//       user_id,
+//       lat,
+//       lng,
+//       radius,
+//       budget,
+//       people,
+//       total_limit,
+//     });
+//     res.json(response.data);
+//   } catch (error) {
+//     console.error("❌ /recommend/cafe error:", error.response?.data || error.message);
+//     res.status(error.response?.status || 500).json({
+//       error: "Failed to fetch cafe/dessert recommendations",
+//       details: error.response?.data || error.message,
+//     });
+//   }
+// });
+
+// // ----------------------------
+// // ✅ 여가시설 추천
+// // ----------------------------
+// app.post("/api/recommend/activity", async (req, res) => {
+//   const { user_id, lat, lng, radius = 5000 } = req.body;
+//   try {
+//     const response = await axios.post(`${PY_API_BASE}/recommend/activity`, {
+//       user_id,
+//       lat,
+//       lng,
+//       radius,
+//     });
+//     res.json(response.data);
+//   } catch (error) {
+//     console.error("❌ /recommend/activity error:", error.response?.data || error.message);
+//     res.status(error.response?.status || 500).json({
+//       error: "Failed to fetch activity recommendations",
+//       details: error.response?.data || error.message,
+//     });
+//   }
+// });
+
+
+
+// ---------------------------
+// Recommend API (FastAPI 연동)
+// ---------------------------
+
+// ✅ 식당 추천
+app.post("/api/recommend/restaurant", async (req, res) => {
+  try {
+    const response = await axios.post(`${PY_API_BASE}/recommend/restaurant`, null, {
+      params: req.query, // 🔑 FastAPI는 query string으로 받음
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("❌ /recommend/restaurant error:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({ error: error.message });
+  }
+});
+
+// ✅ 카페 추천
+app.post("/api/recommend/cafe", async (req, res) => {
+  try {
+    const response = await axios.post(`${PY_API_BASE}/recommend/cafe`, null, {
+      params: req.query,
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("❌ /recommend/cafe error:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({ error: error.message });
+  }
+});
+
+// ✅ 액티비티 추천
+app.post("/api/recommend/activity", async (req, res) => {
+  try {
+    const response = await axios.post(`${PY_API_BASE}/recommend/activity`, null, {
+      params: req.query,
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("❌ /recommend/activity error:", error.response?.data || error.message);
+    res.status(error.response?.status || 500).json({ error: error.message });
+  }
+});
 
 // ---------------------------
 // 서버 시작

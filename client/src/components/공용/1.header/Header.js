@@ -141,7 +141,7 @@ function Header() {
                     <span className="guest-badge">게스트</span>
                     <span>님, 환영합니다!</span>
                     <div className="guest-upgrade-notice">
-                      <Link to="/login" state={{ guestId: userInfo.userId }}>
+                      <Link to="/signup" state={{ guestId: userInfo.userId }}>
                         로그인
                       </Link>
                     </div>
