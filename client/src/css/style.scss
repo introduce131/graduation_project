@@ -207,82 +207,102 @@ footer > ul > .footer-wrap a > p{
       }
   }
 
-  >ul{
-      margin-top: 30px;
+  ul {
+  margin-top: 30px;
+  position: relative;
+  list-style: none;
+  padding: 0;
+
+  li {
+    position: relative;
+    margin-bottom: 20px;
+    border-radius: 9px;
+    overflow: hidden; /* li 범위 넘는 이미지 숨기기 */
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #dedede;
+    }
+
+    > a {
+      display: flex;
+      flex-wrap: wrap; /* 데스크톱에서도 깨지지 않도록 */
+      align-items: flex-start;
+      text-decoration: none;
+      padding: 13px;
       position: relative;
-      li:hover{
-          border-radius: 9px;
-          background-color: #dedede;
+
+      .img_wrap {
+        width: 250px;
+        height: 170px;
+        flex-shrink: 0;
+        margin-bottom: 0;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #f5f5f5;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover; /* 이미지 자연스럽게 잘림 방지 */
+          transition: transform 0.3s ease;
+        }
       }
-      >li{
-          >a{
-              display: flex;
-              flex-wrap: wrap; /* 데스크톱에서도 깨지지 않도록 wrap 추가 */
-              align-items: flex-start; /* 위쪽 정렬 */
-              padding: 13px;
 
-              .img_wrap {
-                  width: 250px;
-                  height: 170px;
-                  flex-shrink: 0;
-                  margin-bottom: 0;
-                  border-radius: 8px;
-                  overflow: hidden;
-                  background: #f5f5f5;
-                  flex-shrink: 0;
-              }
-
-              .info {
-                  margin-left: 15px;
-                  flex: 1 1 auto; /* 가변 너비 */
-                  min-width: 0; /* flex overflow 방지 */
-              }
-
-              .no_image {
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  width: 100%;
-                  height: 100%;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-              }
-
-              &:hover {
-                  .img_wrap img {
-                    transform: scale(1.05);
-                  }
-              }
-
-              .info{
-                  >p{
-                      padding: 15px;
-                      color: #000;
-                      font-size: 20px;
-                      margin-left: 15px;
-                  }
-
-                  .title{
-                      font-size: 26px;
-                      font-weight: 700;
-                      margin-top: 10px;
-                  }
-                  .heart_button{
-                      position: absolute;
-                      right: 100px;
-                  }
-                  .sort{
-                      color: #505050;
-                      margin-top: 5px;
-                  }
-                  .price{
-                      color: #000000;
-                  }
-              }
-          }
+      .no_image {
+       
       }
+
+      &:hover {
+        .img_wrap img {
+          transform: scale(1.05); /* 이미지 확대 호버 */
+        }
+      }
+
+      .info {
+        margin-left: 30px;
+        flex: 1 1 auto;
+        min-width: 0; /* flex overflow 방지 */
+        display: flex;
+        flex-direction: column;
+
+        > p {
+          padding: 5px 0;
+          color: #000;
+          font-size: 16px;
+        }
+
+        .title {
+          font-size: 22px;
+          font-weight: 700;
+          margin-top: 10px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .heart_button {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          cursor: pointer;
+          font-size: 22px;
+          color: red;
+        }
+
+        .sort {
+          color: #505050;
+          margin-top: 5px;
+        }
+
+        .price {
+          color: #000;
+          font-weight: 600;
+        }
+      }
+    }
   }
+}
 }
 
 /* ================================================= */
