@@ -214,94 +214,122 @@ footer > ul > .footer-wrap a > p{
   padding: 0;
 
   li {
-    position: relative;
-    margin-bottom: 20px;
-    border-radius: 9px;
-    overflow: hidden; /* li 범위 넘는 이미지 숨기기 */
-    transition: background-color 0.3s;
+  position: relative;
+  margin-bottom: 20px;
+  border-radius: 9px;
+  overflow: hidden; /* li 범위 넘는 이미지 숨기기 */
+  transition: background-color 0.3s;
+  
+  &:hover {
+    background-color: #dedede;
+  }
 
-    &:hover {
-      background-color: #dedede;
+  > a {
+    display: flex;
+    flex-wrap: wrap; /* 데스크톱에서도 깨지지 않도록 */
+    align-items: flex-start;
+    text-decoration: none;
+    padding: 13px;
+    position: relative;
+
+    .img_wrap {
+      width: 250px;
+      height: 170px;
+      flex-shrink: 0;
+      margin-bottom: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f5f5f5;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* 이미지 자연스럽게 잘림 방지 */
+        transition: transform 0.3s ease;
+      }
     }
 
-    > a {
+    .no_image {
+      /* no_image 스타일 */
+    }
+
+    &:hover {
+      .img_wrap img {
+        transform: scale(1.05); /* 이미지 확대 호버 */
+      }
+    }
+
+    .info {
+      margin-left: 30px;
+      flex: 1;
+      min-width: 0; /* flex overflow 방지 - 이 부분이 중요! */
       display: flex;
-      flex-wrap: wrap; /* 데스크톱에서도 깨지지 않도록 */
-      align-items: flex-start;
-      text-decoration: none;
-      padding: 13px;
-      position: relative;
+      flex-direction: column;
+      overflow: hidden; /* 추가: info 내부 overflow 처리 */
 
-      .img_wrap {
-        width: 250px;
-        height: 170px;
-        flex-shrink: 0;
-        margin-bottom: 0;
-        border-radius: 8px;
+      > p {
+        padding: 5px 0;
+        color: #000;
+        font-size: 16px;
+        margin: 0; /* 기본 마진 제거 */
+      }
+
+      .title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-top: 10px;
         overflow: hidden;
-        background: #f5f5f5;
-
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover; /* 이미지 자연스럽게 잘림 방지 */
-          transition: transform 0.3s ease;
-        }
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%; /* 부모 컨테이너 너비에 맞춤 */
+        display: block; /* block 요소로 설정 */
       }
 
-      .no_image {
-       
+      .heart_button {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        cursor: pointer;
+        font-size: 22px;
+        color: red;
       }
 
-      &:hover {
-        .img_wrap img {
-          transform: scale(1.05); /* 이미지 확대 호버 */
-        }
+      .sort {
+        color: #505050;
+        margin-top: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
-      .info {
-        margin-left: 30px;
-        flex: 1 1 auto;
-        min-width: 0; /* flex overflow 방지 */
-        display: flex;
-        flex-direction: column;
-
-        > p {
-          padding: 5px 0;
-          color: #000;
-          font-size: 16px;
-        }
-
-        .title {
-          font-size: 22px;
-          font-weight: 700;
-          margin-top: 10px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-        .heart_button {
-          position: absolute;
-          top: 15px;
-          right: 15px;
-          cursor: pointer;
-          font-size: 22px;
-          color: red;
-        }
-
-        .sort {
-          color: #505050;
-          margin-top: 5px;
-        }
-
-        .price {
-          color: #000;
-          font-weight: 600;
-        }
+      .price {
+        color: #000;
+        font-weight: 600;
       }
     }
   }
+}
+
+/* 반응형 디자인 추가 */
+@media (max-width: 768px) {
+  li > a {
+    flex-direction: column;
+    
+    .img_wrap {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    
+    .info {
+      margin-left: 0;
+      width: 100%;
+      
+      .title {
+        font-size: 18px;
+      }
+    }
+  }
+}
 }
 }
 

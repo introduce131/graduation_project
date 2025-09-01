@@ -1,6 +1,10 @@
-// ResultPage.js
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import Header from "../공용/1.header/Header";
 import Footer from "../공용/3.footer/Footer";
 import "../../css/budgetResult.scss";
@@ -8,73 +12,67 @@ import "../../css/budgetResult.scss";
 const BudgetResult = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
   const { foodData = [], cafeData = [], activityData = [] } = location.state || {};
 
-  useEffect(() => {
-    console.log("foodData:", foodData);
-    console.log("cafeData:", cafeData);
-    console.log("activityData:", activityData);
-  }, [foodData, cafeData, activityData]);
+  const getRandomItem = (arr) =>
+    arr && arr.length ? arr[Math.floor(Math.random() * arr.length)] : null;
 
-  // 거리 표시 함수 (m → km 변환)
-  const formatDistance = (distance) => {
-    if (!distance) return "";
-    return `${(distance / 1000).toFixed(1)} km`;
-  };
+  const generateGroup = () => ({
+    food: getRandomItem(foodData),
+    cafe: getRandomItem(cafeData),
+    activity: getRandomItem(activityData),
+  });
 
-  // 카드 클릭 시 이동
+  const [recommendationGroup, setRecommendationGroup] = useState(generateGroup());
+
+  const refreshGroup = () => setRecommendationGroup(generateGroup());
+
   const handleCardClick = (store, categoryType) => {
     navigate("/products", { state: { store, categoryType } });
   };
 
-  const renderCards = (items = [], categoryType = "restaurant") => {
-    if (items.length === 0) {
-      return <p className="no-data">추천 항목이 없습니다.</p>;
-    }
-
-    return items.map((item, idx) => (
+  const renderCard = (item, categoryType) => {
+    if (!item) return null;
+    return (
       <div
-        key={idx}
-        className="card"
+        className="fullscreen-card"
         onClick={() => handleCardClick(item, categoryType)}
-        style={{ cursor: "pointer" }}
+        key={item.place_id}
+        style={{ backgroundImage: `url(${item.thumbnail || "/default.png"})` }}
       >
-        <img src={item.thumbnail || "/default.png"} alt={item.place_name || "이미지"} />
-        <div className="info">
-          <h3>{item.place_name || "이름 없음"}</h3>
+        <div className="overlay">
+          <h2>{item.place_name || "이름 없음"}</h2>
           <p>{item.category || "카테고리 없음"}</p>
-          {item.distance && <p>거리: {formatDistance(item.distance)}</p>}
         </div>
       </div>
-    ));
+    );
   };
 
   return (
     <div className="result-page">
       <Header />
-      <main>
-        <section>
-          <div className="rec">
-            <span className="food_recommend">1</span><h2>음식 추천</h2>
-          </div>
-          <div className="card-container">{renderCards(foodData, "restaurant")}</div>
-        </section>
+     <main>
+        <Swiper
+            modules={[Navigation, Pagination]}
+            navigation
+            pagination={{ clickable: true }}
+            spaceBetween={0}
+            slidesPerView={1}
+            loop={true}
+        >
+            <SwiperSlide>{renderCard(recommendationGroup.food, "restaurant")}</SwiperSlide>
+            <SwiperSlide>{renderCard(recommendationGroup.cafe, "restaurant")}</SwiperSlide>
+            <SwiperSlide>{renderCard(recommendationGroup.activity, "activity")}</SwiperSlide>
+        </Swiper>
 
-        <section>
-          <div className="rec">
-            <span className="cafe_recommend">1</span><h2>카페 추천</h2>
-          </div>
-          <div className="card-container">{renderCards(cafeData, "restaurant")}</div>
-        </section>
+        {/* 화면 하단, pagination 아래 */}
+        <div className="refresh-btn-wrapper">
+            <button className="refresh-btn" onClick={refreshGroup}>
+            💡 다른 코스 보기
+            </button>
+        </div>
+        </main>
 
-        <section>
-          <div className="rec">
-            <span className="activity_recommend">1</span><h2>활동 추천</h2>
-          </div>
-          <div className="card-container">{renderCards(activityData, "activity")}</div>
-        </section>
-      </main>
       <Footer />
     </div>
   );

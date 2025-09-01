@@ -169,13 +169,55 @@ app.get("/api/cache/menu", async (req, res) => {
 // Category API
 // ---------------------------
 // ✅ 음식 카테고리 가져오기
+// ---------------------------
+// Category API
+// ---------------------------
+// ✅ 음식 카테고리 가져오기
 app.get("/api/category/restaurant", async (req, res) => {
   try {
-    const response = await axios.get(`${PY_API_BASE}/category/restaurant`);
+    // 클라이언트에서 전달된 쿼리 파라미터를 FastAPI로 전달
+    const { lat, lng, radius } = req.query;
+    
+    // 필수 파라미터 검증
+    if (!lat || !lng) {
+      return res.status(400).json({ 
+        error: "필수 매개변수가 없습니다: lat, lng" 
+      });
+    }
+    
+    // FastAPI에 쿼리 파라미터 전달
+    const response = await axios.get(`${PY_API_BASE}/category/restaurant`, { 
+      params: { lat, lng, radius } 
+    });
+    
     res.json(response.data);
   } catch (error) {
     console.error("❌ /category/restaurant error:", error.response?.data || error.message);
-    res.status(error.response?.status || 500).json({ error: error.message });
+    
+    // FastAPI에서 422 오류가 발생한 경우 기본 카테고리 반환
+    if (error.response?.status === 422) {
+      console.log("FastAPI에서 422 오류 발생, 기본 카테고리 반환");
+      res.json([
+        { category_group: "한식" },
+        { category_group: "중식" },
+        { category_group: "치킨" },
+        { category_group: "카페, 디저트" },
+        { category_group: "찜,탕" },
+        { category_group: "간편식" },
+        { category_group: "주류, 요리주점" },
+        { category_group: "고기" },
+        { category_group: "분식" },
+        { category_group: "아시아음식" },
+        { category_group: "양식" },
+        { category_group: "패스트푸드" },
+        { category_group: "해산물" },
+        { category_group: "기타" }
+      ]);
+    } else {
+      console.log(res.status(error.response?.status || 500).json({ 
+        error: error.message 
+      }));
+    }
   }
 });
 
@@ -401,9 +443,13 @@ app.post("/api/recommend/cafe", async (req, res) => {
 // ✅ 액티비티 추천
 app.post("/api/recommend/activity", async (req, res) => {
   try {
+    // req.query에서 budget과 people 포함
+    const { user_id, lat, lng, radius, budget, people } = req.query;
+
     const response = await axios.post(`${PY_API_BASE}/recommend/activity`, null, {
       params: req.query,
     });
+
     res.json(response.data);
   } catch (error) {
     console.error("❌ /recommend/activity error:", error.response?.data || error.message);

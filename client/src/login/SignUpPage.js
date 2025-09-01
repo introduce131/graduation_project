@@ -92,8 +92,8 @@ const SignUpPage = () => {
           <h1 className="signup-title">회원가입</h1>
           {guestId && (
             <div className="guest-info-banner">
-              <p>⚠️ 게스트 계정을 정식 계정으로 전환합니다</p>
-              <p>게스트 ID: {guestId}</p>
+              {/* <p>⚠️ 게스트 계정을 정식 계정으로 전환합니다</p> */}
+              {/* <p>게스트 ID: {guestId}</p> */}
             </div>
           )}
 

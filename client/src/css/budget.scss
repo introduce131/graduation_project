@@ -1,243 +1,103 @@
-form>div>.pop{
-    li {
-        cursor: pointer;
-        background-color: rgba(0, 0, 0, 0); // ← 투명 배경 추가
-        transition: background-color 0.4s ease;
-      
-        &:hover {
-          background-color: rgba(139, 138, 138, 0.2);
-          
-        }
-      
-        &.active  {
-          background-color: rgba(128, 128, 128, 0.5);
-        }
-      }
+/* budget.scss */
+.budget-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  width: 100%;
+  height: 70vh;
 }
 
-form>div>.cafe{
-    li {
-        cursor: pointer;
-        background-color: rgba(0, 0, 0, 0); // ← 투명 배경 추가
-        transition: background-color 0.4s ease;
-      
-        &:hover {
-          background-color: rgba(139, 138, 138, 0.2);
-          
-        }
-      
-        &.active  {
-          background-color: rgba(128, 128, 128, 0.5);
-        }
-      }
-}
+.budget-form {
+  background: #fff;
+  padding: 80px 45px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ececec;
+  // box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
 
-form>div>.leisure{
-    li {
-        cursor: pointer;
-        background-color: rgba(0, 0, 0, 0); // ← 투명 배경 추가
-        transition: background-color 0.4s ease;
-      
-        &:hover {
-          background-color: rgba(139, 138, 138, 0.2);
-          
-        }
-      
-        &.active  {
-          background-color: rgba(128, 128, 128, 0.5);
-        }
-      }
-}
-  
-  
-  
-  section {
-    margin-top: 40px;
-    .budget_input {
-      font-size: 20px;
-      
-      input{
-        margin-left: 10px;
-        padding-right: 15px;
-        text-align: right;
-          width: 130px;
-          height: 30px;
-          border-radius: 8px;
-          outline: none;
-          border: none;
-          background-color: #e7e5e5;
-      }
-      padding: 10px;
-      padding-left: 0;
-  } 
-    
-    .person{
-        font-size: 20px;
-        button{
-            width: 30px;
-            height: 30px;
-            margin: 20px;
-            background-color: none;
-            outline: none;
-            border: none;
-        }
-    }
-    padding-bottom: 100px;
-  .text{
-    margin-top: 10px;
-    font-size: 20px;
+  h2 {
+    margin-bottom: 30px;
+    font-size: 1.3rem;
+    padding: 10px;
+    color: #333;
   }
-  position: relative;
-  > form {
-      .submit_button{
-        position: absolute;
-        left: 50%;
-          width: 100px;
-          margin-top: 10px;
-          margin-left: -60px;
-            
-        }
-        margin-top: 20px;
-        span{
-            width: 50px;
-            padding: 10px;
-            padding-left: 0;
-            display: block;
-            text-align: center;
-        }
-        div {
-            display: flex;
-        
-        .pop {
-          padding: 20px;
-          padding-left: 0;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr); // 🔥 핵심
-          gap: 10px;
-          width: 300px;
-          border: 1px solid #000;
-          border-radius: 8px;
-          li {
-              width: 50px;
-              height: 80px;
-              margin-left: 20px;
-              padding: 10px;
-              border-radius: 8px;
-             
-            div {
-              width: 50px;
-              height: 50px;
-              text-indent: -99999px;
-              
-              background-position: 50% 50%;
-              background-size: cover;
-              background-repeat: no-repeat;
-            }
-          
-        }
-      >li:nth-child(1)>div{
-           background-image: url(./../images/icon/bibimbap.png);
-        }
-      >li:nth-child(2)>div{
-         background-image: url(./../images/icon/dumpling.png);
-      }
-      >li:nth-child(3)>div{
-         background-image: url(./../images/icon/pizza.png);
-      }
-      >li:nth-child(4)>div{
-         background-image: url(./../images/icon/chicken-leg2.png);
-      }
-      >li:nth-child(5)>div{
-         background-image: url(./../images/icon/meat.png);
-      }
-      >li:nth-child(6)>div{
-         background-image: url(./../images/icon/sundae.png);
-      }
-      >li:nth-child(7)>div{
-         background-image: url(./../images/icon/tteokbokki.png);
-      }
-      >li:nth-child(8)>div{
-         background-image: url(./../images/icon/nigiri.png);
-      }
 
-        }
-  
-        .cafe {
-          width: 70px;
-          padding: 20px;
-          margin-left: 15px;
-          margin-right: 15px;
-        border: 1px solid #000;
-        border-radius: 8px;
-          li{
-            width: 50px;
-            height: 80px;
-            
-            padding: 10px;
-           
-            border-radius: 8px;
-            div{
-            width: 50px;
-              height: 50px;
-              text-indent: -99999px;
-              background-image: url(./../images/icon/coffee-beans.png);
-              background-position: 50% 50%;
-              background-size: cover;
-              background-repeat: no-repeat;
-            }
-          }
+  .input-group {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-         
-        }
-  
-        .leisure {
-          width: 250px;
-          border: 1px solid #000;
-          padding: 30px;
-          padding-left: 10px;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr); // 🔥 핵심
-          gap: 10px;
-          border-radius: 8px;
-            li {
-                width: 50px;
-                height: 80px;
-                margin-left: 10px;
-                padding: 10px;
-                
-                border-radius: 8px;
-              div{
-                width: 50px;
-              height: 50px;
-              text-indent: -99999px;
-             
-              background-position: 50% 50%;
-              background-size: cover;
-              background-repeat: no-repeat;
-              }
-            }
-            >li:nth-child(1)>div{
-                background-image: url(./../images/icon/watching-a-movie.png);
-             }
-           >li:nth-child(2)>div{
-              background-image: url(./../images/icon/football.png);
-           }
-           >li:nth-child(3)>div{
-              background-image: url(./../images/icon/swing.png);
-           }
-           >li:nth-child(4)>div{
-              background-image: url(./../images/icon/game.png);
-           }
-           >li:nth-child(5)>div{
-              background-image: url(./../images/icon/dumbell.png);
-           }
-           >li:nth-child(6)>div{
-              background-image: url(./../images/icon/nature.png);
-           }
-          
-        }
-      }
+    label {
+      font-weight: 500;
+      font-size: 1rem;
+      color: #555;
+      flex: 1;
     }
 
+    input {
+      flex: 2;
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      text-align: right;
+    }
+
+    span {
+      margin-left: 8px;
+      font-weight: 500;
+    }
+
+    .people-counter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      flex: 2;
+
+      button {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: none;
+        background: #f0f0f0;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          background: #ddd;
+        }
+      }
+
+      span {
+        font-size: 1.2rem;
+        width: 40px;
+        display: inline-block;
+        text-align: center;
+      }
+    }
   }
-  
+
+  .submit-btn {
+    width: 100%;
+    padding: 12px 0;
+    border-radius: 10px;
+    border: none;
+    background-color: #f86b6b;
+    //background: linear-gradient(90deg, #5a8dee, #63d0ff);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
