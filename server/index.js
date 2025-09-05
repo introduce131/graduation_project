@@ -44,6 +44,8 @@ app.get("/api/restaurants", async (req, res) => {
   }
 });
 
+
+
 // ✅ 식당 상세 (/restaurant/:place_id)
 app.get("/api/restaurant/:place_id", async (req, res) => {
   try {

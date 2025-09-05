@@ -1,201 +1,151 @@
-.user-profile-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 50px 20px;
-    margin-top: 150px;
+.mypage-container {
+  max-width: 400px;
+  margin: 80px auto 50px;
+  padding: 0 15px;
   font-family: 'Noto Sans KR', sans-serif;
-  box-sizing: border-box;
-  overflow: hidden; /* 스크롤 제거 */
 
-  .user-profile-card {
+  .menu-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
     background-color: #fff;
-    padding: 40px 30px;
-    border-radius: 15px;
-    border: 1px solid #eeeded;
-    //box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 450px;
-    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
 
-    .profile-title {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 30px;
-      color: #222;
-    }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
 
-    .profile-info {
-      .info-item {
-        margin-bottom: 20px;
-
-        label {
-          display: block;
-          font-weight: 500;
-          margin-bottom: 6px;
-          color: #555;
-        }
-
-        .value {
-          font-size: 16px;
-          color: #333;
-        }
-
-        .guest-notice {
-          font-size: 13px;
-          color: #ff5e5e;
-        }
+      &:hover {
+     
       }
 
-      .edit-form {
-        .input-group {
-          margin-bottom: 15px;
+      &:last-child {
+        border-bottom: none;
+      }
 
-          input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: 0.2s;
+      img {
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+       border-radius: 50%;
+        margin-right: 15px;
+      border: 1px solid #f3f2f2;
+        object-fit: cover;
+      }
 
-            &:focus {
-              border-color: #ff5e5e;
-              outline: none;
-            }
-          }
+      .menu-text {
+        font-weight: 500;
+        color: #333;
+      }
 
-          label {
-            font-size: 14px;
-            margin-bottom: 5px;
-            display: block;
-            color: #555;
-          }
-        }
-
-        .form-buttons {
-          display: flex;
-          justify-content: space-between;
-          margin-top: 20px;
-
-          .cancel-btn,
-          .save-btn {
-            flex: 1;
-            padding: 10px 0;
-            font-weight: 600;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s;
-          }
-
-          .cancel-btn {
-            background-color: #e0e0e0;
-            color: #555;
-            margin-right: 10px;
-
-            &:hover { background-color: #d5d5d5; }
-          }
-
-          .save-btn {
-            background-color: #ff5e5e;
-            color: #fff;
-
-            &:hover { background-color: #e14b4b; }
-          }
-        }
+      /* 게스트 배지 */
+      .guest-badge {
+        margin-left: 10px;
+        font-size: 0.8rem;
+        color: #fff;
+        background-color: #f39c12;
+        padding: 2px 6px;
+        border-radius: 6px;
       }
     }
 
-    .message {
-      margin-top: 15px;
-      font-size: 14px;
-
-      &.success { color: #2ecc71; }
-      &.error { color: #e74c3c; }
+    /* 메뉴 헤더 스타일 */
+    .menu-header {
+      font-weight: 600;
+      background-color: #f5f5f5;
+      cursor: default;
     }
 
-    .action-buttons {
+    /* 편집 폼 */
+    .edit-form {
       display: flex;
       flex-direction: column;
-      margin-top: 25px;
-
-      button {
-        width: 100%;
-        padding: 12px 0;
-        font-size: 16px;
-        font-weight: 600;
-        border-radius: 10px;
-        border: none;
-        cursor: pointer;
-        margin-bottom: 12px;
-        transition: 0.2s;
-
-        &.edit-btn { background-color: #ff5e5e; color: #fff; }
-        &.convert-btn { background-color: #fff; color: #ff5e5e; border: 1px solid #ff5e5e; }
-        &.logout-btn { background-color: #f86b6b; color: #fff; }
-
-        &:hover { opacity: 0.9; }
+      input {
+        margin-bottom: 10px;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 0.95rem;
+      }
+      .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        button {
+          padding: 8px 15px;
+          border-radius: 6px;
+          border: none;
+          cursor: pointer;
+          font-weight: 500;
+        }
       }
     }
-  }
 
-  // 태블릿용 (768px 이하)
-  @media (max-width: 768px) {
-    padding: 40px 15px;
+    
+    
+}
+/* 버튼 스타일 */
+.edit-btn {
+  background-color: #3498db;
+  color: #fff;
+}
+.convert-btn {
+display: block;       // block으로 만들어 가로 폭 자연스럽게
+width: fit-content;   // 내용에 맞춰 폭 조절
+width: 100%;
+background-color: #ff4b6e;
+color: #fff;
+margin:  auto 0; // 상단 10px, 가운데 정렬
+padding: 14px 16px;   // 패딩 조절
+border-radius: 8px;
+border: none;
+cursor: pointer;
+font-size: 16px;
+font-weight: 500;
+text-align: center;
 
-    .user-profile-card {
-      max-width: 360px;
-      padding: 35px 25px;
+}
 
-      .profile-title { font-size: 26px; margin-bottom: 25px; }
+.logout-btn {
+ display: block;       // block으로 만들어 가로 폭 자연스럽게
+width: fit-content;   // 내용에 맞춰 폭 조절
+width: 100%;
+background-color: #ff4b6e;
+color: #fff;
+margin:  auto 0; // 상단 10px, 가운데 정렬
+padding: 14px 16px;   // 패딩 조절
+border-radius: 8px;
+border: none;
+cursor: pointer;
+font-size: 16px;
+font-weight: 500;
+text-align: center;
+}
+}
 
-      .profile-info {
-        .info-item {
-          .value { font-size: 15px; }
-          .guest-notice { font-size: 12px; }
-        }
+/* 반응형 */
+@media (max-width: 480px) {
+  .mypage-container {
+    padding: 0 10px;
 
-        .edit-form {
-          .input-group { input { font-size: 13px; padding: 8px 10px; } label { font-size: 13px; } }
-          .form-buttons { flex-direction: column;
+    .menu-card {
+      .menu-item {
+        padding: 12px 15px;
+        font-size: 0.95rem;
 
-            .cancel-btn, .save-btn { margin-right: 0; margin-bottom: 10px; padding: 10px 0; }
-          }
+        img {
+          width: 35px;
+          height: 35px;
+          margin-right: 10px;
         }
       }
-
-      .action-buttons { button { font-size: 15px; padding: 11px 0; } }
-    }
-  }
-
-  // 모바일용 (480px 이하)
-  @media (max-width: 480px) {
-    padding: 20px 10px;
-
-    .user-profile-card {
-      max-width: 300px;
-      padding: 30px 15px;
-      border-radius: 12px;
-
-      .profile-title { font-size: 24px; margin-bottom: 20px; }
-
-      .profile-info {
-        .info-item { 
-          .value { font-size: 14px; }
-          .guest-notice { font-size: 12px; }
-        }
-
-        .edit-form {
-          .input-group { input { font-size: 12px; padding: 7px 10px; } label { font-size: 12px; } }
-          .form-buttons { flex-direction: column;
-            .cancel-btn, .save-btn { margin-right: 0; margin-bottom: 10px; padding: 10px 0; }
-          }
-        }
-      }
-
-      .action-buttons { button { font-size: 14px; padding: 10px 0; } }
     }
   }
 }

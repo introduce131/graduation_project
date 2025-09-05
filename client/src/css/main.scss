@@ -156,6 +156,26 @@ section{
 }
 
 @media (max-width: 600px) {
+  section .categories a > div{
+    display: none;
+  }
+h1{
+  margin-top: 50px;
+  
+  text-align: center;
+}
+  .categories_wrap_2{
+    margin-left: 50px;
+  }
+  .categories_wrap_1 {
+    margin-left: 80px;
+  }
+    .categories{
+      display: block;
+      width: 400px;
+
+      margin: 0 auto;
+    }
   section {
     > .title {
       font-size: 28px;

@@ -44,9 +44,13 @@ function MyFavorites() {
           </div>
         ) : (
           <div className="favorites-list">
-            {favorites.map((store) => (
+            {favorites.map((store, index) => (
               <div key={store.place_id} className="favorite-item">
-                <Link to={`/restaurant/${store.place_id}`} state={{ store }} className="store-link">
+                <Link
+                  to={`/products`} // store 기준으로 URL
+                  state={{ store }}
+                  className="menu-item store-link"
+                >
                   <div className="store-image">
                     {store.thumbnail ? (
                       <img src={store.thumbnail} alt={store.place_name} />
@@ -57,7 +61,7 @@ function MyFavorites() {
                   <div className="store-info">
                     <h3>{store.place_name}</h3>
                     <p className="category">{store.category}</p>
-                    <p className="reviews">리뷰 {store.reviewCount || 0}개</p>
+                    {/* <p className="reviews">리뷰 {store.reviewCount || 0}개</p> */}
                   </div>
                 </Link>
                 <button 

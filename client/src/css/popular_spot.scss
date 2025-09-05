@@ -1,66 +1,123 @@
+.popular-spot-section {
+  width: 100%;
 
-.popular-spot-section{
+  > .coupon_image {
     width: 100%;
-    >.coupon_image{
-        width: 100%;
-        position: relative;
-        span{
-            position: absolute;
-            top: 0px;
-            color: white;
-            font-size: 34px;
-            padding: 20px;
-            font-weight: 700;
-            margin-top: 30px;
-            margin-left: 10px;
-        }
-        img{
-            display: block;
-            width: 100%;
-        }
+    position: relative;
+
+    span {
+      position: absolute;
+      top: 0px;
+      color: white;
+      font-size: 34px;
+      padding: 20px;
+      font-weight: 700;
+      margin-top: 30px;
+      margin-left: 10px;
     }
 
-    >ul{
-       width: 800px;
-        display: grid;
-        grid-template-columns: repeat(4,auto);
-        
-        
-        justify-content: space-around;
-        align-content: center;
-       margin-top: 30px;
-        >li{
-            padding: 15px;
-            width: 75px;
-            .link_tag{
-                display: block;
-                width: 75px;
-                transition: background-color 0.3s ease;
-                >img{
-                    display: block;
-                    width: 100%;
-                    padding: 10px;
-                    border-radius: 9px;
-                }
-                img:hover{
-                    background-color: #e0e0e0;
-                }
-
-                >p{
-                    margin-top: 5px;
-                    text-align: center;
-                    font-weight: 700;
-                    font-size: 16px;
-                    padding-left: 15px;
-                }
-            }
-        }
-    }//end of ul
-
-    .flex_wrap{
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(2,minmax(0,1fr));
-        gap: 16px;
+    img {
+      display: block;
+      width: 100%;
     }
+  }
+
+  > ul {
+    width: 800px; // 전체화면에서는 원래 크기 유지
+    display: grid;
+    grid-template-columns: repeat(4, auto); // 4열
+    justify-content: space-around;
+    align-content: center;
+    margin-top: 30px;
+
+    > li {
+      padding: 15px;
+      width: 75px;
+
+      .link_tag {
+        display: block;
+        width: 75px;
+        transition: background-color 0.3s ease;
+
+        > img {
+          display: block;
+          width: 100%;
+          padding: 10px;
+          border-radius: 9px;
+        }
+
+        img:hover {
+          background-color: #e0e0e0;
+        }
+
+        > p {
+          margin-top: 5px;
+          text-align: center;
+          font-weight: 700;
+          font-size: 16px;
+          padding-left: 15px;
+        }
+      }
+    }
+  }
+
+  .flex_wrap {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+/* ================== 모바일 대응 ================== */
+@media (max-width: 600px) {
+    .popular-spot-section {
+    h1{
+        padding: 60px;
+    }
+    .wrap >.info_wrap {
+      margin-left: 80px;
+    }
+    > ul {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); // 모바일에서도 4열 유지
+      gap: 6px;
+      margin-top: 20px;
+        margin-left: 20px;
+      > li {
+        width: 100%;
+        max-width: 50px; // 모바일에서는 아이콘 작게
+        padding: 5px;
+
+        .link_tag {
+          width: 100%;
+
+          > img {
+            padding: 2px;
+            border-radius: 6px;
+          }
+
+          > p {
+            font-size: 10px;
+            padding-left: 0;
+          }
+        }
+      }
+    }
+
+    .flex_wrap {
+      grid-template-columns: 1fr; // 1열
+      gap: 12px;
+    }
+
+    > .coupon_image {
+      span {
+        font-size: 20px;
+        padding: 8px;
+        margin-top: 15px;
+        margin-left: 10px;
+      }
+    }
+  }
 }
