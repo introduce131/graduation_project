@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import useLocationStore from "../../../store/useLocationStore";
 import axios from "axios";
@@ -26,6 +26,9 @@ function List() {
   const [stores, setStores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categoryLoading, setCategoryLoading] = useState(true);
+
+  // 슬라이더 ref
+  const sliderRef = useRef(null);
 
   // 서버 ping
   useEffect(() => {
@@ -73,6 +76,12 @@ function List() {
     if (defaultCategory && categories.includes(defaultCategory) && latitude && longitude) {
       setSelectedCategory(defaultCategory);
       fetchStoresByCategory(defaultCategory);
+
+      // active 탭 위치로 슬라이드 이동
+      const index = categories.indexOf(defaultCategory);
+      if (sliderRef.current && index >= 0) {
+        sliderRef.current.slickGoTo(index);
+      }
     }
   }, [defaultCategory, categories, latitude, longitude]);
 
@@ -102,8 +111,8 @@ function List() {
       {categoryLoading ? (
         <div className="category-loading">카테고리 로딩 중...</div>
       ) : (
-        <Slider {...sliderSettings} className="category-slider">
-          {categories.map((cat) => (
+        <Slider {...sliderSettings} ref={sliderRef} className="category-slider">
+          {categories.map((cat, index) => (
             <div key={cat} className="category-slide">
               <button
                 className={selectedCategory === cat ? "btn active" : "btn"}
@@ -111,6 +120,8 @@ function List() {
                   setSelectedCategory(cat);
                   navigate(`?category=${cat}`);
                   fetchStoresByCategory(cat);
+                  // 클릭 시 active 위치로 슬라이드 이동
+                  if (sliderRef.current) sliderRef.current.slickGoTo(index);
                 }}
               >
                 {cat}
