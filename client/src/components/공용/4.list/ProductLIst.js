@@ -383,24 +383,15 @@ useEffect(() => {
       );
     }
 
-    if (Array.isArray(naverMenuGroupsData)) {
-      const flattenedMenus = naverMenuGroupsData.flatMap((group) => {
-        if (group.menus && Array.isArray(group.menus)) {
-          return group.menus.map((item) => ({
-            menu_id:
-              item.menu_id ||
-              `group-${item.menu_name}-${Math.random()
-                .toString(36)
-                .substr(2, 9)}`,
-            menu_name: item.menu_name,
-            menu_price: item.menu_price,
-            image_url: item.image_url,
-            description: item.description,
-            source: "naver_order_group",
-          }));
-        }
-        return [];
-      });
+     if (Array.isArray(naverMenuGroupsData)) {
+      const flattenedMenus = naverMenuGroupsData.map((item) => ({
+        menu_id: item.menu_id || `group-${item.menu_name}-${Math.random().toString(36).substr(2, 9)}`,
+        menu_name: item.menu_name,
+        menu_price: item.menu_price,
+        image_url: item.image_url,
+        description: item.description,
+        source: "naver_order_group",
+      }));
       allMenus.push(...flattenedMenus);
     }
 
