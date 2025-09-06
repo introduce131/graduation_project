@@ -1,123 +1,465 @@
-.popular-spot-section {
-  width: 100%;
+// .popular-spot-section {
+//   width: 100%;
 
-  > .coupon_image {
-    width: 100%;
-    position: relative;
+//   > .coupon_image {
+//     width: 100%;
+//     position: relative;
 
-    span {
-      position: absolute;
-      top: 0px;
-      color: white;
-      font-size: 34px;
-      padding: 20px;
-      font-weight: 700;
-      margin-top: 30px;
-      margin-left: 10px;
-    }
+//     span {
+//       position: absolute;
+//       top: 0px;
+//       color: white;
+//       font-size: 34px;
+//       padding: 20px;
+//       font-weight: 700;
+//       margin-top: 30px;
+//       margin-left: 10px;
+//     }
 
-    img {
-      display: block;
+//     img {
+//       display: block;
+//       width: 100%;
+//     }
+//   }
+
+//   > ul {
+//     width: 800px; // 전체화면에서는 원래 크기 유지
+//     display: grid;
+//     grid-template-columns: repeat(4, auto); // 4열
+//     justify-content: space-around;
+//     align-content: center;
+//     margin-top: 30px;
+
+//     > li {
+//       padding: 15px;
+//       width: 75px;
+
+//       .link_tag {
+//         display: block;
+//         width: 75px;
+//         transition: background-color 0.3s ease;
+
+//         > img {
+//           display: block;
+//           width: 100%;
+//           padding: 10px;
+//           border-radius: 9px;
+//         }
+
+//         img:hover {
+//           background-color: #e0e0e0;
+//         }
+
+//         > p {
+//           margin-top: 5px;
+//           text-align: center;
+//           font-weight: 700;
+//           font-size: 16px;
+//           padding-left: 15px;
+//         }
+//       }
+//     }
+//   }
+
+//   .flex_wrap {
+//     width: 100%;
+//     display: grid;
+//     grid-template-columns: repeat(2, minmax(0, 1fr));
+//     gap: 16px;
+//   }
+// }
+
+// /* ================== 모바일 대응 ================== */
+// @media (max-width: 600px) {
+//     .popular-spot-section {
+//     h1{
+//         padding: 60px;
+//     }
+//     .wrap >.info_wrap {
+//       margin-left: 80px;
+//     }
+//     > ul {
+//       width: 100%;
+//       display: grid;
+//       grid-template-columns: repeat(4, 1fr); // 모바일에서도 4열 유지
+//       gap: 6px;
+//       margin-top: 20px;
+//         margin-left: 20px;
+//       > li {
+//         width: 100%;
+//         max-width: 50px; // 모바일에서는 아이콘 작게
+//         padding: 5px;
+
+//         .link_tag {
+//           width: 100%;
+
+//           > img {
+//             padding: 2px;
+//             border-radius: 6px;
+//           }
+
+//           > p {
+//             font-size: 10px;
+//             padding-left: 0;
+//           }
+//         }
+//       }
+//     }
+
+//     .flex_wrap {
+//       grid-template-columns: 1fr; // 1열
+//       gap: 12px;
+//     }
+
+//     > .coupon_image {
+//       span {
+//         font-size: 20px;
+//         padding: 8px;
+//         margin-top: 15px;
+//         margin-left: 10px;
+//       }
+//     }
+//   }
+// }
+
+.pop_wrap {
+  padding: 20px;
+  background: #fff;
+
+  .popular-spot-section {
+
+    // 광고판 스타일
+    .coupon_image {
+      position: relative;
       width: 100%;
-    }
-  }
+      height: 220px; // 광고판 높이
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15); // 그림자 효과
 
-  > ul {
-    width: 800px; // 전체화면에서는 원래 크기 유지
-    display: grid;
-    grid-template-columns: repeat(4, auto); // 4열
-    justify-content: space-around;
-    align-content: center;
-    margin-top: 30px;
-
-    > li {
-      padding: 15px;
-      width: 75px;
-
-      .link_tag {
-        display: block;
-        width: 75px;
-        transition: background-color 0.3s ease;
-
-        > img {
-          display: block;
-          width: 100%;
-          padding: 10px;
-          border-radius: 9px;
-        }
-
-        img:hover {
-          background-color: #e0e0e0;
-        }
-
-        > p {
-          margin-top: 5px;
-          text-align: center;
-          font-weight: 700;
-          font-size: 16px;
-          padding-left: 15px;
-        }
-      }
-    }
-  }
-
-  .flex_wrap {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-  }
-}
-
-/* ================== 모바일 대응 ================== */
-@media (max-width: 600px) {
-    .popular-spot-section {
-    h1{
-        padding: 60px;
-    }
-    .wrap >.info_wrap {
-      margin-left: 80px;
-    }
-    > ul {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); // 모바일에서도 4열 유지
-      gap: 6px;
-      margin-top: 20px;
-        margin-left: 20px;
-      > li {
+      img {
         width: 100%;
-        max-width: 50px; // 모바일에서는 아이콘 작게
-        padding: 5px;
+        height: 100%;
+        object-fit: cover; // 이미지를 영역 가득 채움
+        transition: transform 0.3s ease;
+      }
 
-        .link_tag {
-          width: 100%;
+      // 이미지 마우스 오버 시 살짝 확대
+      &:hover img {
+        transform: scale(1.05);
+      }
 
-          > img {
-            padding: 2px;
-            border-radius: 6px;
-          }
+      span {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        color: #fff;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.3;
+        text-shadow: 1px 1px 4px rgba(0,0,0,0.7); // 텍스트 가독성
+        z-index: 2;
+      }
 
-          > p {
-            font-size: 10px;
-            padding-left: 0;
-          }
+      // 오른쪽 강조 문구 (선택사항)
+      .badge {
+        position: absolute;
+        bottom: 15px;
+        right: 20px;
+        background: rgba(255, 69, 0, 0.9); // 오렌지 배경
+        color: #fff;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      }
+    }
+
+    .category-slide {
+      text-align: center;
+      padding: 10px;
+ cursor: pointer;;
+      .link_tag {
+        cursor: pointer;;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+
+        img {
+          width: 80px;
+          height: 80px;
+          object-fit: contain;
+          margin-bottom: 8px;
+           cursor: pointer;;
+        }
+
+        p {
+          font-size: 14px;
+          color: #333;
         }
       }
+    }
+
+    h1 {
+      margin-top: 40px;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #222;
     }
 
     .flex_wrap {
-      grid-template-columns: 1fr; // 1열
-      gap: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
     }
+  }
+}
 
-    > .coupon_image {
+// 반응형
+@media (max-width: 1024px) {
+  .popular-spot-section {
+    .coupon_image {
+      height: 180px;
+
       span {
         font-size: 20px;
-        padding: 8px;
-        margin-top: 15px;
-        margin-left: 10px;
       }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .popular-spot-section {
+    .coupon_image {
+      height: 140px;
+
+      span {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+// 슬라이더 화살표
+.slick-slider {
+  position: relative;
+
+  .slick-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;           // 크기 키움
+  height: 40px;
+  background: rgba(0, 0, 0, 0.6); 
+  color: #fff;
+  font-size: 24px;       
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;    
+  z-index: 10;
+  cursor: pointer;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3); 
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.8); // 호버 시 강조
+  }
+}
+
+.prev-arrow {
+  left: -20px; 
+}
+
+.next-arrow {
+  right: -20px; 
+}
+
+
+  .slick-slide {
+    padding: 10px;
+    box-sizing: border-box;
+  }
+}
+
+
+// 반응형
+@media (max-width: 1024px) {
+  .popular-spot-section {
+    .coupon_image {
+      flex-direction: column;
+      align-items: flex-start;
+
+      img {
+        margin-top: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .popular-spot-section {
+    .category-slide {
+      padding: 5px;
+
+      .link_tag {
+        img {
+          width: 60px;
+          height: 60px;
+        }
+
+        p {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+.slick-slider {
+  margin: 0 -10px;
+  position: relative; // 화살표 위치 기준
+
+  .slick-prev,
+  .slick-next {
+    width: 30px;
+    height: 30px;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 18px;
+  }
+
+  .slick-prev {
+    left: 0;
+  }
+
+  .slick-next {
+    right: 0;
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
+    content: ""; // 기본 화살표 제거
+  }
+
+  .slick-slide {
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+}
+.slick-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 50%;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.prev-arrow {
+  left: -15px; // 좌측 위치 조정
+}
+
+.next-arrow {
+  right: -15px; // 우측 위치 조정
+}
+.pop_wrap {
+  .popular-spot-section {
+    .flex_wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    /* 추천 가게 카드 */
+    .popular-store-card {
+      width: calc(50% - 10px); // 2열로 표시
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .img_wrap {
+        width: 100%;
+        height: 160px;
+        background: #f0f0f0;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .no_image {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          background: #eee;
+          color: #666;
+          font-size: 14px;
+        }
+      }
+
+      .info {
+        padding: 12px;
+
+        .title {
+          font-size: 16px;
+          font-weight: 700;
+          margin-bottom: 6px;
+          color: #222;
+        }
+
+        .distance {
+          font-size: 14px;
+          color: #666;
+        }
+      }
+    }
+  }
+}
+
+/* 모바일 대응 */
+@media (max-width: 600px) {
+  .popular-store-card {
+    width: 100%;
+    .img_wrap {
+      height: 140px;
     }
   }
 }

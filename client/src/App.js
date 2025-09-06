@@ -17,6 +17,8 @@ import SignUpPage from './login/SignUpPage';
 import LeisureList from './components/공용/4.list/LeisureList';
 import Mypage from './components/menu/Mypage';
 import BudgetResult from './components/budget/BudgetResult';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   // 앱이 처음 시작하면 위치 값 불러오기

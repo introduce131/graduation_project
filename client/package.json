@@ -12,7 +12,9 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",
     "react-scripts": "5.0.1",
+    "react-slick": "^0.31.0",
     "sass": "^1.89.1",
+    "slick-carousel": "^1.8.1",
     "swiper": "^11.2.10",
     "web-vitals": "^2.1.4",
     "zustand": "^5.0.5"
