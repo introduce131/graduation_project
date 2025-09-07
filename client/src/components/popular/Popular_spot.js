@@ -22,12 +22,16 @@ import alcoholImg from "./../../images/[맛집]아이콘/주류.png";
 import japaneseImg from "./../../images/[맛집]아이콘/일식.png";
 import westernImg from "./../../images/[맛집]아이콘/양식.png";
 import asianImg from "./../../images/[맛집]아이콘/아시아음식.png";
-import worldImg from "./../../images/[맛집]아이콘/세계음식.png";
+// import worldImg from "./../../images/[맛집]아이콘/세계음식.png";
 import bunsikImg from "./../../images/[맛집]아이콘/분식.png";
 import dessertImg from "./../../images/[맛집]아이콘/디저트.png";
 import dietImg from "./../../images/[맛집]아이콘/다이어트식.png";
 import meatImg from "./../../images/[맛집]아이콘/고기.png";
 import simpleImg from "./../../images/[맛집]아이콘/간편식.png";
+import worldImg from "./../../images/[맛집]아이콘/세계음식4.png";
+
+import fastFood from "./../../images/[맛집]아이콘/햄버거.png";
+import etc from "./../../images/[맛집]아이콘/음식_기타.png"
 
 // 카테고리 매핑
 const categoryImages = {
@@ -40,13 +44,14 @@ const categoryImages = {
   "분식": bunsikImg,
   "일식": japaneseImg,
   "카페, 디저트": dessertImg,
-  "패스트푸드": worldImg,
+  "패스트푸드": fastFood,
   "아시아음식": asianImg,
   "해산물": seafoodImg,
   "주류, 요리주점": alcoholImg,
   "다이어트식": dietImg,
   "간편식": simpleImg,
-  "기타": worldImg,
+  "기타": etc,
+  "세계음식" : worldImg,
 };
 
 // 거리 포맷
