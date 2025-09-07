@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import useLocationStore from "../../../store/useLocationStore";
 import axios from "axios";
@@ -25,24 +25,33 @@ function LeisureList() {
   const navigate = useNavigate();
   const defaultCategory = searchParams.get("category") || "";
   const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
-  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
-  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+
   const location = useLocationStore((state) => state.location);
   const latitude = location?.lat;
   const longitude = location?.lng;
 
+  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const [stores, setStores] = useState([]);
   const [isLoadingStores, setIsLoadingStores] = useState(false);
 
+  // 슬라이더 ref
+  const sliderRef = useRef(null);
+
+  // 카테고리 불러오기
   useEffect(() => {
     const fetchCategories = async () => {
       setIsLoadingCategories(true);
       try {
-        const response = await axios.get("http://localhost:5000/api/category/activity");
+        if (!latitude || !longitude) return;
+
+        const params = { lat: parseFloat(latitude), lng: parseFloat(longitude), radius: 5000 };
+        const response = await axios.get("http://localhost:5000/api/category/activity", { params });
+
         if (response.data && Array.isArray(response.data)) {
           const categoryNames = response.data
             .map(item => item.category_group)
-            .filter(category => category && category.trim() !== '');
+            .filter(category => category && category.trim() !== "");
           setCategories(categoryNames.length > 0 ? categoryNames : DEFAULT_CATEGORIES);
         }
       } catch (error) {
@@ -53,27 +62,41 @@ function LeisureList() {
       }
     };
     fetchCategories();
-  }, []);
+  }, [latitude, longitude]);
 
-  const fetchStoresByCategory = async (category) => {
-    if (!latitude || !longitude) return;
-    setIsLoadingStores(true);
-    try {
-      const params = { lat: parseFloat(latitude), lng: parseFloat(longitude), category_group: category, radius: 10000 };
-      const res = await axios.get("http://localhost:5000/api/activities", { params });
-      setStores(Array.isArray(res.data) ? res.data : []);
-    } catch (err) {
-      console.error("여가 시설 API 요청 실패:", err);
-      setStores([]);
-    } finally {
-      setIsLoadingStores(false);
-    }
-  };
+  // 선택 카테고리별 시설 불러오기
+ const fetchStoresByCategory = async (category) => {
+  if (!latitude || !longitude) return;
+  setIsLoadingStores(true);
+  try {
+    const params = {
+      lat: parseFloat(latitude),
+      lng: parseFloat(longitude),
+      category_group: category || null,
+      radius: 10000, // 필요하면 5000으로 줄여도 됨
+    };
+    const res = await axios.get("http://localhost:5000/api/activities", { params });
+    setStores(Array.isArray(res.data) ? res.data : []);
+  } catch (err) {
+    console.error("여가 시설 API 요청 실패:", err);
+    setStores([]);
+  } finally {
+    setIsLoadingStores(false);
+  }
+};
 
+
+  // 초기 선택 카테고리 처리
   useEffect(() => {
     if (defaultCategory && categories.includes(defaultCategory) && latitude && longitude) {
       setSelectedCategory(defaultCategory);
       fetchStoresByCategory(defaultCategory);
+
+      // active 위치로 슬라이드 이동
+      const index = categories.indexOf(defaultCategory);
+      if (sliderRef.current && index >= 0) {
+        sliderRef.current.slickGoTo(index);
+      }
     }
   }, [defaultCategory, categories, latitude, longitude]);
 
@@ -105,8 +128,8 @@ function LeisureList() {
         {isLoadingCategories ? (
           <div className="loading">카테고리 로딩 중...</div>
         ) : (
-          <Slider {...sliderSettings} className="category-slider">
-            {categories.map((cat) => (
+          <Slider {...sliderSettings} ref={sliderRef} className="category-slider">
+            {categories.map((cat, index) => (
               <div key={cat} className="category-slide">
                 <button
                   className={selectedCategory === cat ? "btn active" : "btn"}
@@ -114,6 +137,7 @@ function LeisureList() {
                     setSelectedCategory(cat);
                     navigate(`?category=${cat}`);
                     fetchStoresByCategory(cat);
+                    if (sliderRef.current) sliderRef.current.slickGoTo(index);
                   }}
                 >
                   {cat}
@@ -133,7 +157,7 @@ function LeisureList() {
           <ul>
             {stores.map((store) => (
               <li key={store.id || store.place_id}>
-                <Link to="/products" state={{ store: { ...store, type: 'activity' }, categoryType: 'activity' }}>
+                <Link to="/products" state={{ store: { ...store, type: "activity" }, categoryType: "activity" }}>
                   <div className="img_wrap">
                     {store.thumbnail ? (
                       <img src={store.thumbnail} alt={store.place_name || store.title} />

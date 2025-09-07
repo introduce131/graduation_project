@@ -6,7 +6,7 @@
 
 .refresh-btn-wrapper {
   position: absolute;      // fixed -> absolute
-  bottom: -60px;            // pagination 점 아래로 충분히 띄움
+  bottom: -50px;            // pagination 점 아래로 충분히 띄움 이거 버튼 조절하는거임
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;            // 카드보다 위에 오도록
