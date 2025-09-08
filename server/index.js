@@ -12,11 +12,13 @@ const PY_API_BASE = process.env.PY_API_BASE || "https://arcane-dynamics-470515-j
 // ---------------------------
 // CORS 설정
 // ---------------------------
-app.use(cors({
-  origin: "http://localhost:3000",  // React 앱 주소
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3000", // React 앱 주소
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // ---------------------------
@@ -43,8 +45,6 @@ app.get("/api/restaurants", async (req, res) => {
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
-
-
 
 // ✅ 식당 상세 (/restaurant/:place_id)
 app.get("/api/restaurant/:place_id", async (req, res) => {
@@ -179,23 +179,23 @@ app.get("/api/category/restaurant", async (req, res) => {
   try {
     // 클라이언트에서 전달된 쿼리 파라미터를 FastAPI로 전달
     const { lat, lng, radius } = req.query;
-    
+
     // 필수 파라미터 검증
     if (!lat || !lng) {
-      return res.status(400).json({ 
-        error: "필수 매개변수가 없습니다: lat, lng" 
+      return res.status(400).json({
+        error: "필수 매개변수가 없습니다: lat, lng",
       });
     }
-    
+
     // FastAPI에 쿼리 파라미터 전달
-    const response = await axios.get(`${PY_API_BASE}/category/restaurant`, { 
-      params: { lat, lng, radius } 
+    const response = await axios.get(`${PY_API_BASE}/category/restaurant`, {
+      params: { lat, lng, radius },
     });
-    
+
     res.json(response.data);
   } catch (error) {
     console.error("❌ /category/restaurant error:", error.response?.data || error.message);
-    
+
     // FastAPI에서 422 오류가 발생한 경우 기본 카테고리 반환
     if (error.response?.status === 422) {
       console.log("FastAPI에서 422 오류 발생, 기본 카테고리 반환");
@@ -213,12 +213,14 @@ app.get("/api/category/restaurant", async (req, res) => {
         { category_group: "양식" },
         { category_group: "패스트푸드" },
         { category_group: "해산물" },
-        { category_group: "기타" }
+        { category_group: "기타" },
       ]);
     } else {
-      console.log(res.status(error.response?.status || 500).json({ 
-        error: error.message 
-      }));
+      console.log(
+        res.status(error.response?.status || 500).json({
+          error: error.message,
+        })
+      );
     }
   }
 });
@@ -226,21 +228,43 @@ app.get("/api/category/restaurant", async (req, res) => {
 // ✅ 액티비티 카테고리 가져오기
 app.get("/api/category/activity", async (req, res) => {
   try {
-    const response = await axios.get(`${PY_API_BASE}/category/activity`);
+    // 클라이언트에서 전달된 쿼리 파라미터를 FastAPI로 전달
+    const { lat, lng, radius } = req.query;
+
+    // 필수 파라미터 검증
+    if (!lat || !lng) {
+      return res.status(400).json({
+        error: "필수 매개변수가 없습니다: lat, lng",
+      });
+    }
+
+    // FastAPI에 쿼리 파라미터 전달
+    const response = await axios.get(`${PY_API_BASE}/category/activity`, {
+      params: { lat, lng, radius },
+    });
+
     res.json(response.data);
   } catch (error) {
     console.error("❌ /category/activity error:", error.response?.data || error.message);
-    // 기본 카테고리 반환
-    res.json([
-      { category_group: "게임,멀티미디어" },
-      { category_group: "공방" },
-      { category_group: "도서,교육" },
-      { category_group: "문화,예술" },
-      { category_group: "방탈출카페" },
-      { category_group: "사진,스튜디오" },
-      { category_group: "스포츠,오락" },
-      { category_group: "여행,관광" }
-    ]);
+
+    // FastAPI에서 422 오류가 발생한 경우 기본 카테고리 반환
+    if (error.response?.status === 422) {
+      console.log("FastAPI에서 422 오류 발생, 기본 카테고리 반환");
+      res.json([
+        { category_group: "게임,멀티미디어" },
+        { category_group: "공방" },
+        { category_group: "도서,교육" },
+        { category_group: "문화,예술" },
+        { category_group: "방탈출카페" },
+        { category_group: "사진,스튜디오" },
+        { category_group: "스포츠,오락" },
+        { category_group: "여행,관광" },
+      ]);
+    } else {
+      res.status(error.response?.status || 500).json({
+        error: error.message,
+      });
+    }
   }
 });
 
@@ -300,7 +324,9 @@ app.post("/api/action/restaurant", async (req, res) => {
     if (!user_id || !place_id || !action_type) {
       return res.status(400).json({ error: "user_id, place_id, action_type required" });
     }
-    const response = await axios.post(`${PY_API_BASE}/action/restaurant`, null, { params: { user_id, place_id, action_type } });
+    const response = await axios.post(`${PY_API_BASE}/action/restaurant`, null, {
+      params: { user_id, place_id, action_type },
+    });
     res.json(response.data);
   } catch (error) {
     console.error("❌ /action/restaurant error:", error.response?.data || error.message);
@@ -319,13 +345,13 @@ app.post("/api/action/activity", async (req, res) => {
     if (!user_id || !place_id || !action_type) {
       return res.status(400).json({
         error: "Missing required parameters",
-        details: "user_id, place_id, and action_type are required"
+        details: "user_id, place_id, and action_type are required",
       });
     }
 
     // FastAPI로 query 파라미터로 전달
     const response = await axios.post(`${PY_API_BASE}/action/activity`, null, {
-      params: { user_id, place_id, action_type }
+      params: { user_id, place_id, action_type },
     });
 
     res.json(response.data);
@@ -409,8 +435,6 @@ app.post("/api/action/activity", async (req, res) => {
 //     });
 //   }
 // });
-
-
 
 // ---------------------------
 // Recommend API (FastAPI 연동)
