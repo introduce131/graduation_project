@@ -33,40 +33,31 @@ function ProductList() {
   const [routeTime, setRouteTime] = useState(null);
   const [locationError, setLocationError] = useState(null);
 
+  // 최근 본 기록 (localStorage 저장)
+  useEffect(() => {
+    if (!store) return;
 
-useEffect(() => {
-  if (!store) return;
+    const recentViews = JSON.parse(localStorage.getItem("recent_views")) || [];
+    const filteredViews = recentViews.filter(
+      (item) => item.place_id !== store.place_id
+    );
 
-  // 최근 본 히스토리 가져오기
-  const recentViews = JSON.parse(localStorage.getItem("recent_views")) || [];
+    const newRecentViews = [
+      {
+        place_id: store.place_id,
+        place_name: store.place_name,
+        thumbnail: store.thumbnail || no_img,
+        category: store.category,
+        viewed_at: new Date().toISOString(),
+      },
+      ...filteredViews,
+    ];
 
-  // 중복 제거
-  const filteredViews = recentViews.filter(
-    (item) => item.place_id !== store.place_id
-  );
-
-  // 가장 최근 순서로 추가 (앞에 추가)
-  const newRecentViews = [
-    { 
-      place_id: store.place_id,
-      place_name: store.place_name,
-      thumbnail: store.thumbnail || no_img,
-      category: store.category,
-      viewed_at: new Date().toISOString()
-    },
-    ...filteredViews
-  ];
-
-  // 최대 10개까지만 저장
-  localStorage.setItem(
-    "recent_views",
-    JSON.stringify(newRecentViews.slice(0, 10))
-  );
-
-}, [store]);
-
-
-
+    localStorage.setItem(
+      "recent_views",
+      JSON.stringify(newRecentViews.slice(0, 10))
+    );
+  }, [store]);
 
   // 사용자 ID 가져오기
   const getUserId = () =>
@@ -77,7 +68,6 @@ useEffect(() => {
     try {
       const userId = getUserId();
       const placeId = store?.place_id;
-
       if (!userId || !placeId) return;
 
       const endpoint =
@@ -151,103 +141,25 @@ useEffect(() => {
     }
   };
 
-  // 네이버 지도 웹으로 이동하는 함수 - 개선된 버전
-  const openNaverMap = () => {
-    if (!navigator.geolocation) {
-      alert("이 브라우저에서는 위치 정보를 지원하지 않습니다.");
-      setLocationError("브라우저 지원 안됨");
-      return;
-    }
-
-    // 가게 좌표 확인
-    const storeLat = restaurantData?.restaurant?.lat || 
-                    store?.latitude || 
-                    store?.lat;
-    const storeLng = restaurantData?.restaurant?.lng || 
-                    store?.longitude || 
-                    store?.lng;
-
-    if (!storeLat || !storeLng) {
-      alert("가게 위치 정보가 없습니다.");
-      return;
-    }
-
-    // 위치 정보 요청 옵션 (timeout 설정)
-    const geoOptions = {
-      enableHighAccuracy: true,
-      timeout: 10000, // 10초 타임아웃
-      maximumAge: 60000 // 1분 동안 캐시된 위치 사용
-    };
-
-    setLocationError(null);
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const userLat = pos.coords.latitude;
-        const userLng = pos.coords.longitude;
-
-        // 네이버 지도 URL 생성 (더 간단한 버전)
-        const naverMapUrl = `https://map.naver.com/v5/directions/${userLng},${userLat},내위치/${storeLng},${storeLat},${encodeURIComponent(store.place_name)}/car`;
-        
-        // 새 창에서 네이버 지도 열기
-        window.open(naverMapUrl, '_blank', 'noopener,noreferrer');
-      },
-      (err) => {
-        console.error("위치 정보를 가져올 수 없음:", err);
-        
-        let errorMessage = "위치 정보를 가져올 수 없습니다.";
-        
-        switch(err.code) {
-          case err.PERMISSION_DENIED:
-            errorMessage = "위치 정보 접근 권한이 거부되었습니다. 브라우저 설정에서 위치 권한을 허용해주세요.";
-            setLocationError("권한 거부");
-            break;
-          case err.POSITION_UNAVAILABLE:
-            errorMessage = "위치 정보를 사용할 수 없습니다.";
-            setLocationError("위치 정보 없음");
-            break;
-          case err.TIMEOUT:
-            errorMessage = "위치 정보 요청 시간이 초과되었습니다.";
-            setLocationError("시간 초과");
-            break;
-          default:
-            errorMessage = "알 수 없는 오류가 발생했습니다.";
-            setLocationError("알 수 없는 오류");
-        }
-        
-        // 권한 거부 시에도 가게 위치만으로 네이버 지도 열기
-        const confirmOpen = window.confirm(
-          `${errorMessage}\n\n가게 위치만으로 네이버 지도를 열까요?`
-        );
-        
-        if (confirmOpen) {
-          const naverMapUrl = `https://map.naver.com/v5/search/${encodeURIComponent(store.place_name)}/place/${storeLng},${storeLat}`;
-          window.open(naverMapUrl, '_blank', 'noopener,noreferrer');
-        }
-      },
-      geoOptions
-    );
-  };
-
-  // 대체 방법: 사용자 위치 없이 가게 위치만으로 네이버 지도 열기
+  // 네이버 지도 웹 열기
   const openNaverMapWithoutLocation = () => {
-    const storeLat = restaurantData?.restaurant?.lat || 
-                    store?.latitude || 
-                    store?.lat;
-    const storeLng = restaurantData?.restaurant?.lng || 
-                    store?.longitude || 
-                    store?.lng;
+    const storeLat =
+      restaurantData?.restaurant?.lat || store?.latitude || store?.lat;
+    const storeLng =
+      restaurantData?.restaurant?.lng || store?.longitude || store?.lng;
 
     if (!storeLat || !storeLng) {
       alert("가게 위치 정보가 없습니다.");
       return;
     }
 
-    const naverMapUrl = `https://map.naver.com/v5/search/${encodeURIComponent(store.place_name)}/place/${storeLng},${storeLat}`;
-    window.open(naverMapUrl, '_blank', 'noopener,noreferrer');
+    const naverMapUrl = `https://map.naver.com/v5/search/${encodeURIComponent(
+      store.place_name
+    )}/place/${storeLng},${storeLat}`;
+    window.open(naverMapUrl, "_blank", "noopener,noreferrer");
   };
 
-  // 데이터 로딩 및 view 액션 기록
+  // 데이터 로딩 (여기서 view 액션 기록)
   useEffect(() => {
     const loadData = async () => {
       if (!store?.place_id) return;
@@ -282,6 +194,7 @@ useEffect(() => {
         setNaverMenuData(menu);
         setNaverMenuGroupsData(menuGroups);
 
+        // ✅ 페이지 들어올 때 view 저장
         await recordUserAction("view");
       } catch (error) {
         console.error("Data loading error:", error);
@@ -328,16 +241,14 @@ useEffect(() => {
       const updatedFavorites = favorites.filter(
         (fav) => fav.place_id !== store.place_id
       );
-      localStorage.setItem(
-        "myfavorites",
-        JSON.stringify(updatedFavorites)
-      );
+      localStorage.setItem("myfavorites", JSON.stringify(updatedFavorites));
       await recordLikeAction(false);
     }
 
     setIsFavorite(newFavoriteState);
   };
 
+  // 상세정보 클릭 시 click 액션 저장
   const handleOpenHoursModal = async () => {
     setShowHoursModal(true);
     await recordUserAction("click");
@@ -383,9 +294,13 @@ useEffect(() => {
       );
     }
 
-     if (Array.isArray(naverMenuGroupsData)) {
+    if (Array.isArray(naverMenuGroupsData)) {
       const flattenedMenus = naverMenuGroupsData.map((item) => ({
-        menu_id: item.menu_id || `group-${item.menu_name}-${Math.random().toString(36).substr(2, 9)}`,
+        menu_id:
+          item.menu_id ||
+          `group-${item.menu_name}-${Math.random()
+            .toString(36)
+            .substr(2, 9)}`,
         menu_name: item.menu_name,
         menu_price: item.menu_price,
         image_url: item.image_url,
@@ -583,36 +498,39 @@ useEffect(() => {
                     {restaurantData.restaurant.direction}
                   </p>
                 )}
-                
-                {/* 길찾기 버튼 - 개선된 버전 */}
-                <div style={{ marginTop: '15px' }}>
-                  
-                  
+
+                <div style={{ marginTop: "15px" }}>
                   <button
                     onClick={openNaverMapWithoutLocation}
                     className="map-button-alt"
                     style={{
-                      padding: '10px 15px',
-                      backgroundColor: '#f0f0f0',
-                      color: '#333',
-                      border: '1px solid #ddd',
-                      borderRadius: '5px',
-                      cursor: 'pointer',
-                      fontSize: '14px'
+                      padding: "10px 15px",
+                      backgroundColor: "#f0f0f0",
+                      color: "#333",
+                      border: "1px solid #ddd",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      fontSize: "14px",
                     }}
                   >
                     📍 가게 위치 보기
                   </button>
                 </div>
-                
+
                 {locationError && (
-                  <p style={{ color: '#ff4444', fontSize: '12px', marginTop: '8px' }}>
-                    {locationError === "권한 거부" 
+                  <p
+                    style={{
+                      color: "#ff4444",
+                      fontSize: "12px",
+                      marginTop: "8px",
+                    }}
+                  >
+                    {locationError === "권한 거부"
                       ? "위치 권한이 거부되었습니다. 브라우저 설정에서 허용해주세요."
                       : "위치 정보를 가져올 수 없습니다."}
                   </p>
                 )}
-                
+
                 {routeTime && <p>예상 소요 시간: {routeTime}분</p>}
               </div>
               <div className="info-section">
