@@ -116,7 +116,7 @@ const SignUpPage = () => {
 
             <hr className="divider"/>
             <button type="submit" className="signup-button1" disabled={isLoading}>
-              {isLoading ? '처리 중...' : guestId ? '게스트 계정 전환' : '회원가입'}
+              {isLoading ? '처리 중...' : guestId ? '정회원 계정으로 전환' : '회원가입'}
             </button>
           </form>
 

@@ -58,8 +58,8 @@
 }
 
 .fullscreen-card {
-  width: 60%;        /* 기존 100% -> 90%로 줄임 */
-  height: 60vh;      /* 기존 80vh -> 70vh로 줄임 */
+  width: 40%;        /* 기존 100% -> 90%로 줄임 */
+  height: 50vh;      /* 기존 80vh -> 70vh로 줄임 */
   margin: 0 auto;    /* 가운데 정렬 */
   background-size: cover;
   background-position: center;
@@ -89,7 +89,7 @@
 }
 
 .overlay h2 {
-  font-size: 1.8rem;
+  font-size: 22px;
   margin: 0 0 5px 0;
 }
 

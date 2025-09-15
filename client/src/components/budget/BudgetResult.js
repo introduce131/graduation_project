@@ -101,7 +101,7 @@ const BudgetResult = () => {
 
   const refreshGroup = () => {
     generateGroup();
-    if (swiperRef.current && swiperRef.current.swiper) swiperRef.current.swiper.slideTo(0);
+    if (swiperRef.current && swiperRef.current.swiper) swiperRef.current.swiper.slideToLoop(0);
   };
 
   const handleCardClick = (store, categoryType) => {
@@ -133,7 +133,7 @@ const BudgetResult = () => {
           <p>{item.category || "카테고리 없음"}</p>
           <div className="price-info">
             <span>평균 가격: {item.median_price ? item.median_price.toLocaleString() + "원" : "정보 없음"}</span>
-            <span>예산: {budget.toLocaleString()}원</span>
+            <span> 예산 : {budget.toLocaleString()}원</span>
           </div>
         </div>
       </div>
@@ -152,14 +152,14 @@ const BudgetResult = () => {
       )}
 
       <main style={{ filter: isLoading ? "blur(2px)" : "none", pointerEvents: isLoading ? "none" : "auto" }}>
-        <div className="budget-summary">
+        {/* <div className="budget-summary">
           <h2>총 예산: {userBudget.toLocaleString()}원</h2>
           <div className="budget-breakdown">
             <div className="budget-item"><span>음식</span><span>{foodBudget.toLocaleString()}원</span></div>
             <div className="budget-item"><span>카페</span><span>{cafeBudget.toLocaleString()}원</span></div>
             <div className="budget-item"><span>활동</span><span>{activityBudget.toLocaleString()}원</span></div>
           </div>
-        </div>
+        </div> */}
 
         <Swiper ref={swiperRef} modules={[Navigation, Pagination]} navigation pagination={{ clickable: true }} spaceBetween={0} slidesPerView={1} loop={true}>
           <SwiperSlide>{renderCard(recommendationGroup.food, "restaurant", foodBudget)}</SwiperSlide>
