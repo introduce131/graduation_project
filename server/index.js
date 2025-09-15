@@ -35,35 +35,35 @@ app.get("/api/hello", (req, res) => {
 // ---------------------------
 // Restaurant API
 // ---------------------------
-// ✅ 식당 검색 (/restaurants)
+//  식당 검색 (/restaurants)
 app.get("/api/restaurants", async (req, res) => {
   try {
     const response = await axios.get(`${PY_API_BASE}/restaurants`, { params: req.query });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /restaurants error:", error.response?.data || error.message);
+    console.error(" /restaurants error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
 
-// ✅ 식당 상세 (/restaurant/:place_id)
+//  식당 상세 (/restaurant/:place_id)
 app.get("/api/restaurant/:place_id", async (req, res) => {
   try {
     const response = await axios.get(`${PY_API_BASE}/restaurant/${req.params.place_id}`);
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /restaurant/:place_id error:", error.response?.data || error.message);
+    console.error(" /restaurant/:place_id error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
 
-// ✅ 식당 영업시간 (/restaurant/:business_id/hours)
+//  식당 영업시간 (/restaurant/:business_id/hours)
 app.get("/api/restaurant/:business_id/hours", async (req, res) => {
   try {
     const response = await axios.get(`${PY_API_BASE}/restaurant/${req.params.business_id}/hours`);
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /restaurant/:business_id/hours error:", error.response?.data || error.message);
+    console.error(" /restaurant/:business_id/hours error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
@@ -71,35 +71,35 @@ app.get("/api/restaurant/:business_id/hours", async (req, res) => {
 // ---------------------------
 // Activity API
 // ---------------------------
-// ✅ 여가시설 검색 (/activities)
+// 여가시설 검색 (/activities)
 app.get("/api/activities", async (req, res) => {
   try {
     const response = await axios.get(`${PY_API_BASE}/activities`, { params: req.query });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /activities error:", error.response?.data || error.message);
+    console.error(" /activities error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
 
-// ✅ 여가시설 상세 (/activity/:place_id)
+//  여가시설 상세 (/activity/:place_id)
 app.get("/api/activity/:place_id", async (req, res) => {
   try {
     const response = await axios.get(`${PY_API_BASE}/activity/${req.params.place_id}`);
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /activity/:place_id error:", error.response?.data || error.message);
+    console.error(" /activity/:place_id error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
 
-// ✅ 여가 영업시간 (/activity/:business_id/hours)
+// 여가 영업시간 (/activity/:business_id/hours)
 app.get("/api/activity/:business_id/hours", async (req, res) => {
   try {
     const response = await axios.get(`${PY_API_BASE}/activity/${req.params.business_id}/hours`);
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /activity/:business_id/hours error:", error.response?.data || error.message);
+    console.error(" /activity/:business_id/hours error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
@@ -107,14 +107,14 @@ app.get("/api/activity/:business_id/hours", async (req, res) => {
 // ---------------------------
 // Menu API
 // ---------------------------
-// ✅ 메뉴 가져오기 (/menu?business_id=...)
+//  메뉴 가져오기 (/menu?business_id=...)
 app.get("/api/menu", async (req, res) => {
   if (!req.query.business_id) return res.status(400).json({ error: "Missing business_id parameter" });
   try {
     const response = await axios.get(`${PY_API_BASE}/menu`, { params: req.query });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /menu error:", error.response?.data || error.message);
+    console.error(" /menu error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
@@ -130,7 +130,7 @@ app.get("/api/menu/menu", async (req, res) => {
     const response = await axios.get(`${PY_API_BASE}/menu/menu`, { params: { place_id } });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /menu/menu error:", error.response?.data || error.message);
+    console.error(" /menu/menu error:", error.response?.data || error.message);
     // FastAPI에서 에러가 나도 빈 배열 반환
     res.json({ menu: [] });
   }
@@ -147,7 +147,7 @@ app.get("/api/menu/menuGroups", async (req, res) => {
     const response = await axios.get(`${PY_API_BASE}/menu/menuGroups`, { params: { place_id } });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /menu/menuGroups error:", error.response?.data || error.message);
+    console.error(" /menu/menuGroups error:", error.response?.data || error.message);
     // FastAPI에서 에러가 나도 빈 배열 반환
     res.json({ menuGroups: [] });
   }
@@ -156,13 +156,13 @@ app.get("/api/menu/menuGroups", async (req, res) => {
 // ---------------------------
 // Cache API
 // ---------------------------
-// ✅ 메뉴 캐싱 (/cache/menu)
+// 메뉴 캐싱 (/cache/menu)
 app.get("/api/cache/menu", async (req, res) => {
   try {
     const response = await axios.get(`${PY_API_BASE}/cache/menu`, { params: req.query });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /cache/menu error:", error.response?.data || error.message);
+    console.error(" /cache/menu error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
@@ -170,11 +170,11 @@ app.get("/api/cache/menu", async (req, res) => {
 // ---------------------------
 // Category API
 // ---------------------------
-// ✅ 음식 카테고리 가져오기
+//  음식 카테고리 가져오기
 // ---------------------------
 // Category API
 // ---------------------------
-// ✅ 음식 카테고리 가져오기
+//  음식 카테고리 가져오기
 app.get("/api/category/restaurant", async (req, res) => {
   try {
     // 클라이언트에서 전달된 쿼리 파라미터를 FastAPI로 전달
@@ -194,7 +194,7 @@ app.get("/api/category/restaurant", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /category/restaurant error:", error.response?.data || error.message);
+    console.error(" /category/restaurant error:", error.response?.data || error.message);
 
     // FastAPI에서 422 오류가 발생한 경우 기본 카테고리 반환
     if (error.response?.status === 422) {
@@ -225,7 +225,7 @@ app.get("/api/category/restaurant", async (req, res) => {
   }
 });
 
-// ✅ 액티비티 카테고리 가져오기
+// 액티비티 카테고리 가져오기
 app.get("/api/category/activity", async (req, res) => {
   try {
     // 클라이언트에서 전달된 쿼리 파라미터를 FastAPI로 전달
@@ -245,7 +245,7 @@ app.get("/api/category/activity", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /category/activity error:", error.response?.data || error.message);
+    console.error(" /category/activity error:", error.response?.data || error.message);
 
     // FastAPI에서 422 오류가 발생한 경우 기본 카테고리 반환
     if (error.response?.status === 422) {
@@ -277,18 +277,18 @@ function isValidUUID(uuid) {
   return uuidRegex.test(uuid);
 }
 
-// ✅ 게스트 유저 생성
+//  게스트 유저 생성
 app.get("/api/auth/guest", async (req, res) => {
   try {
     const response = await axios.get(`${PY_API_BASE}/auth/guest`);
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /auth/guest error:", error.response?.data || error.message);
+    console.error(" /auth/guest error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
 
-// ✅ 회원가입
+// 회원가입
 app.post("/api/auth/signup", async (req, res) => {
   try {
     const requestBody = { ...req.body };
@@ -298,18 +298,18 @@ app.post("/api/auth/signup", async (req, res) => {
     const response = await axios.post(`${PY_API_BASE}/auth/signup`, requestBody);
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /auth/signup error:", error.response?.data || error.message);
+    console.error(" /auth/signup error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
 
-// ✅ 로그인
+//  로그인
 app.post("/api/auth/login", async (req, res) => {
   try {
     const response = await axios.post(`${PY_API_BASE}/auth/login`, req.body);
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /auth/login error:", error.response?.data || error.message);
+    console.error(" /auth/login error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
@@ -317,7 +317,7 @@ app.post("/api/auth/login", async (req, res) => {
 // ---------------------------
 // Action API
 // ---------------------------
-// ✅ 식당 액션 기록 (view, click, like, dislike)
+// 식당 액션 기록 (view, click, like, dislike)
 app.post("/api/action/restaurant", async (req, res) => {
   try {
     const { user_id, place_id, action_type } = req.query;
@@ -329,7 +329,7 @@ app.post("/api/action/restaurant", async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /action/restaurant error:", error.response?.data || error.message);
+    console.error(" /action/restaurant error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
@@ -356,7 +356,7 @@ app.post("/api/action/activity", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /action/activity error:", error.response?.data || error.message);
+    console.error(" /action/activity error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
       error: "Failed to record activity action",
       details: error.response?.data || error.message,
@@ -440,7 +440,7 @@ app.post("/api/action/activity", async (req, res) => {
 // Recommend API (FastAPI 연동)
 // ---------------------------
 
-// ✅ 식당 추천
+// 식당 추천
 app.post("/api/recommend/restaurant", async (req, res) => {
   try {
     const response = await axios.post(`${PY_API_BASE}/recommend/restaurant`, null, {
@@ -448,12 +448,12 @@ app.post("/api/recommend/restaurant", async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /recommend/restaurant error:", error.response?.data || error.message);
+    console.error(" /recommend/restaurant error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
 
-// ✅ 카페 추천
+// 카페 추천
 app.post("/api/recommend/cafe", async (req, res) => {
   try {
     const response = await axios.post(`${PY_API_BASE}/recommend/cafe`, null, {
@@ -461,12 +461,12 @@ app.post("/api/recommend/cafe", async (req, res) => {
     });
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /recommend/cafe error:", error.response?.data || error.message);
+    console.error(" /recommend/cafe error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });
 
-// ✅ 액티비티 추천
+// 액티비티 추천
 app.post("/api/recommend/activity", async (req, res) => {
   try {
     // req.query에서 budget과 people 포함
@@ -478,7 +478,7 @@ app.post("/api/recommend/activity", async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error("❌ /recommend/activity error:", error.response?.data || error.message);
+    console.error(" /recommend/activity error:", error.response?.data || error.message);
     res.status(error.response?.status || 500).json({ error: error.message });
   }
 });

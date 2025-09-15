@@ -1,4 +1,3 @@
-// Budget.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../공용/1.header/Header";

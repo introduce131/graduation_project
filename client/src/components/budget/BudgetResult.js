@@ -16,7 +16,7 @@ const BudgetResult = () => {
   const { foodData = [], cafeData = [], activityData = [], userBudget = 0 } = location.state || {};
   const swiperRef = useRef(null);
 
-  // 예산 계산 등 기존 로직 그대로
+  // 예산 계산 
   const calculateCategoryBudget = (totalBudget, ratio) => Math.floor(totalBudget * ratio);
   const FOOD_RATIO = 0.35, CAFE_RATIO = 0.30, ACTIVITY_RATIO = 0.35;
   const foodBudget = calculateCategoryBudget(userBudget, FOOD_RATIO);
@@ -44,7 +44,7 @@ const BudgetResult = () => {
     }
   };
 
-  // 랜덤 선택 로직 기존 그대로
+  // 랜덤 선택 로직 
   const getValidRandomItem = async (items, budgetRange, categoryType, previousItems = [], maxAttempts = 20) => {
   if (!items || items.length === 0) return null;
 
@@ -168,7 +168,7 @@ const BudgetResult = () => {
         </Swiper>
 
         <div className="refresh-btn-wrapper">
-          <button className="refresh-btn" onClick={refreshGroup}>💡 다른 코스 보기</button>
+          <button className="refresh-btn" onClick={refreshGroup}>다른 코스 보기</button>
         </div>
       </main>
       <Footer />
