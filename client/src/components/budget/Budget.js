@@ -69,6 +69,7 @@ function Budget() {
 
     navigate("/result", {
       state: {
+        userBudget: numericPrice,
         foodData: foodRes,
         cafeData: cafeRes,
         activityData: activityRes,
