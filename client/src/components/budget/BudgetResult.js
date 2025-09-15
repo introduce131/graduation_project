@@ -1,4 +1,3 @@
-// 기존 import는 그대로 사용
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
