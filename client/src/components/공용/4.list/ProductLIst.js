@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import useLocationStore from "../../../store/useLocationStore";
 import Header from "../1.header/Header";
 import Footer from "../3.footer/Footer";
 import css from "./../../../css/ProductList.scss";
@@ -18,6 +19,7 @@ import no_img from "../../../images/icon/no-image.jpg";
 
 function ProductList() {
   const location = useLocation();
+  const userLocation = useLocationStore((state) => state.location);
   const store = location.state?.store;
   const categoryType =
     location.state?.categoryType || store?.type || "restaurant";
@@ -199,6 +201,24 @@ function ProductList() {
     const naverMapUrl = `https://map.naver.com/v5/search/${encodeURIComponent(
       store.place_name
     )}/place/${storeLng},${storeLat}`;
+    window.open(naverMapUrl, "_blank", "noopener,noreferrer");
+  };
+
+    // 네이버 지도 길찾기
+  const openNaverMapDirections = () => {
+    if (!userLocation?.lat || !userLocation?.lng) return;
+
+    const storeLat =
+      restaurantData?.restaurant?.lat || store?.latitude || store?.lat;
+    const storeLng =
+      restaurantData?.restaurant?.lng || store?.longitude || store?.lng;
+
+    if (!storeLat || !storeLng) {
+      alert("가게 위치 정보가 없습니다.");
+      return;
+    }
+
+    const naverMapUrl = `https://map.naver.com/p/directions/${userLocation.lng},${userLocation.lat}/${storeLng},${storeLat},${encodeURIComponent(store.place_name)},${store.place_id},PLACE_POI/-/transit?c=13.78,0,0,0,dh`
     window.open(naverMapUrl, "_blank", "noopener,noreferrer");
   };
 
@@ -568,6 +588,23 @@ function ProductList() {
                     }}
                   >
                     📍 가게 위치 보기
+                  </button>
+                  {/* 가게 길찾기 */}
+                  <button
+                    onClick={openNaverMapDirections}
+                    className="map-button-alt"
+                    style={{
+                      padding: "10px 15px",
+                      backgroundColor: "#f0f0f0",
+                      color: "#333",
+                      border: "1px solid #ddd",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    📌 가게 길찾기
                   </button>
                 </div>
 
