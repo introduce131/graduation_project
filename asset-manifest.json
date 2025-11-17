@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/on-mohae/static/css/main.5690bf26.css",
-    "main.js": "/on-mohae/static/js/main.22f9f822.js",
+    "main.js": "/on-mohae/static/js/main.04c258ab.js",
     "static/js/453.337e52ff.chunk.js": "/on-mohae/static/js/453.337e52ff.chunk.js",
     "static/media/gay.jpg": "/on-mohae/static/media/gay.519b119dde96c795736c.jpg",
     "static/media/그라데이션.jpg": "/on-mohae/static/media/그라데이션.9d52d0ac6e8a0b6bf245.jpg",
@@ -35,11 +35,11 @@
     "static/media/slick.woff": "/on-mohae/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/on-mohae/index.html",
     "main.5690bf26.css.map": "/on-mohae/static/css/main.5690bf26.css.map",
-    "main.22f9f822.js.map": "/on-mohae/static/js/main.22f9f822.js.map",
+    "main.04c258ab.js.map": "/on-mohae/static/js/main.04c258ab.js.map",
     "453.337e52ff.chunk.js.map": "/on-mohae/static/js/453.337e52ff.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5690bf26.css",
-    "static/js/main.22f9f822.js"
+    "static/js/main.04c258ab.js"
   ]
 }
