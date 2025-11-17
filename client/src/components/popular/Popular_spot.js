@@ -66,6 +66,7 @@ function Popular_spot() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [recommendedStores, setRecommendedStores] = useState([]);
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
 
   // 슬라이더 화살표
   function NextArrow(props) {
@@ -86,7 +87,7 @@ function Popular_spot() {
         const params = { lat: parseFloat(location.lat), lng: parseFloat(location.lng), radius: 5000 };
 
         // 카테고리
-        const resCategories = await axios.get("/api/category/restaurant", { params });
+        const resCategories = await axios.get(`${API_URL}/category/restaurant`, { params });
         if (resCategories.data && Array.isArray(resCategories.data)) {
           const uniqueCategories = [...new Set(resCategories.data.map(item =>
             item.category || item.category_name || item.category_group || "기타"
@@ -95,7 +96,7 @@ function Popular_spot() {
         }
 
         // 추천 가게 랜덤 2개
-        const resStores = await axios.get("/api/restaurants", { params });
+        const resStores = await axios.get(`${API_URL}/restaurants`, { params });
         if (Array.isArray(resStores.data)) {
           const shuffled = resStores.data.sort(() => 0.5 - Math.random());
           setRecommendedStores(shuffled.slice(0, 2));

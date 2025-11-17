@@ -34,6 +34,7 @@ function LeisureList() {
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const [stores, setStores] = useState([]);
   const [isLoadingStores, setIsLoadingStores] = useState(false);
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
 
   // 슬라이더 ref
   const sliderRef = useRef(null);
@@ -46,7 +47,7 @@ function LeisureList() {
         if (!latitude || !longitude) return;
 
         const params = { lat: parseFloat(latitude), lng: parseFloat(longitude), radius: 5000 };
-        const response = await axios.get("/api/category/activity", { params });
+        const response = await axios.get(`${API_URL}/category/activity`, { params });
 
         if (response.data && Array.isArray(response.data)) {
           const categoryNames = response.data
@@ -75,7 +76,7 @@ function LeisureList() {
       category_group: category || null,
       radius: 10000, // 필요하면 5000으로 줄여도 됨
     };
-    const res = await axios.get("/api/activities", { params });
+    const res = await axios.get(`${API_URL}/activities`, { params });
     setStores(Array.isArray(res.data) ? res.data : []);
   } catch (err) {
     console.error("여가 시설 API 요청 실패:", err);

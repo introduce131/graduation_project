@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "오늘 뭐할까?",
+  "name": "오늘 뭐할까? - 당신을 위한 추천 앱",
   "icons": [
     {
       "src": "favicon.ico",

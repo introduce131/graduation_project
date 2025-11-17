@@ -12,6 +12,7 @@ const LoginPage = () => {
   const [checkingEmail, setCheckingEmail] = useState(false); // 이메일 확인 중
   const navigate = useNavigate();
   const location = useLocation();
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
 
   // 컴포넌트 마운트 시 로컬 스토리지에서 guest_id 가져오기
   useEffect(() => {
@@ -85,7 +86,7 @@ const LoginPage = () => {
       }
 
       // 일반 로그인 API 호출
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -142,7 +143,7 @@ const LoginPage = () => {
   const generateGuestId = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/auth/guest');
+      const response = await fetch(`${API_URL}/auth/guest`);
       if (response.ok) {
         const data = await response.json();
         const newGuestId = data.user_id;

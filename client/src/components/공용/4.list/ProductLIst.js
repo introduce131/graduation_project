@@ -35,6 +35,7 @@ function ProductList() {
   const [routeTime, setRouteTime] = useState(null);
   const [locationError, setLocationError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
 
   // 서버에서 받은 is_liked 값으로 초기 좋아요 상태 설정
   useEffect(() => {
@@ -83,7 +84,7 @@ function ProductList() {
 
     try {
       const res = await axios.post(
-        "/api/likes",
+        `${API_URL}/likes`,
         {},
         {
           params: {
@@ -111,8 +112,8 @@ function ProductList() {
 
       const endpoint =
         categoryType === "activity"
-          ? "/api/action/activity"
-          : "/api/action/restaurant";
+          ? `${API_URL}/action/activity`
+          : `${API_URL}/action/restaurant`;
 
       const response = await axios.post(
         `${endpoint}?user_id=${userId}&place_id=${placeId}&action_type=${actionType}`,
@@ -137,8 +138,8 @@ function ProductList() {
     
     try {
       const url = userId
-        ? `/api/restaurant/${placeId}?user_id=${userId}`
-        : `/api/restaurant/${placeId}`;
+        ? `${API_URL}/restaurant/${placeId}?user_id=${userId}`
+        : `${API_URL}/restaurant/${placeId}`;
 
       const response = await axios.get(url);
 
@@ -153,7 +154,7 @@ function ProductList() {
   const fetchRestaurantHours = async (placeId) => {
     try {
       const response = await axios.get(
-        `/api/restaurant/${placeId}/hours`
+        `${API_URL}/restaurant/${placeId}/hours`
       );
       return response.data || [];
     } catch (error) {
@@ -165,7 +166,7 @@ function ProductList() {
   const fetchNaverMenu = async (placeId) => {
     try {
       const response = await axios.get(
-        `/api/menu/menu?place_id=${placeId}`
+        `${API_URL}/menu/menu?place_id=${placeId}`
       );
       return response.data || [];
     } catch (error) {
@@ -177,7 +178,7 @@ function ProductList() {
   const fetchNaverMenuGroups = async (placeId) => {
     try {
       const response = await axios.get(
-        `/api/menu/menuGroups?place_id=${placeId}`
+        `${API_URL}/menu/menuGroups?place_id=${placeId}`
       );
       return response.data || [];
     } catch (error) {

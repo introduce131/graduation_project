@@ -19,10 +19,12 @@ const Mypage = () => {
   const [favoritePlaces, setFavoritePlaces] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
+
   // 🔥 1) 사용자 정보 불러오기
   const loadUserInfo = async () => {
     try {
-      const response = await fetch("/api/auth/me", {
+      const response = await fetch(`${API_URL}/auth/me`, {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
       });
@@ -76,7 +78,7 @@ const Mypage = () => {
   // 🔥 3) 좋아요한 장소 API로 불러오기
   const loadFavoritePlacesFromAPI = async (uid) => {
     try {
-      const response = await fetch(`/api/likes/list?user_id=${uid}`);
+      const response = await fetch(`${API_URL}/likes/list?user_id=${uid}`);
       if (!response.ok) throw new Error("좋아요 목록 불러오기 실패");
 
       const data = await response.json();

@@ -630,3 +630,57 @@ footer {
     margin-top: 16px;         // 리스트와의 간격도 줄이기
   }
 }
+
+/* 네비게이션 버튼 초기화 (기본 파란색 제거) */
+.category-slider .swiper-button-prev,
+.category-slider .swiper-button-next {
+  color: white !important;     /* 기본 파란색 글자 제거 */
+  fill: white !important;      /* 아이콘 SVG 대비 */
+  stroke: white !important;
+}
+
+/* 깔끔한 원형 버튼 스타일 */
+.category-slider .swiper-button-prev,
+.category-slider .swiper-button-next {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50% !important;
+  transform: translateY(30%) !important;
+  transition: 0.2s;
+}
+
+/* 화살표 아이콘 재정의 */
+.category-slider .swiper-button-prev::after,
+.category-slider .swiper-button-next::after {
+  font-size: 16px !important;
+  font-weight: 700;
+  color: white !important;
+}
+
+/* hover 효과 */
+.category-slider .swiper-button-prev:hover,
+.category-slider .swiper-button-next:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* 화살표 위치 조정 */
+.category-slider .swiper-button-prev {
+  left: -5px;
+}
+.category-slider .swiper-button-next {
+  right: -5px;
+}
+
+/* 모바일에서는 버튼 제거 (너 요청했던 부분) */
+@media (max-width: 480px) {
+  .category-slider .swiper-button-prev,
+  .category-slider .swiper-button-next {
+    display: none !important;
+  }
+}

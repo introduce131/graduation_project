@@ -8,6 +8,8 @@ function MyFavorites() {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
+
   // user_id 가져오기 (로그인/게스트 모두 대응)
   const getUserId = () => {
     return localStorage.getItem("user_id") || "";
@@ -23,7 +25,7 @@ function MyFavorites() {
     }
 
     try {
-      const res = await fetch(`/api/likes/list?user_id=${uid}`);
+      const res = await fetch(`${API_URL}/likes/list?user_id=${uid}`);
       const data = await res.json();
       setFavorites(data.liked_places || []);
     } catch (err) {
@@ -38,14 +40,14 @@ function MyFavorites() {
     loadFavoritePlaces();
   }, []);
 
-  // 찜 해제 → /api/likes (토글)
+  // 찜 해제 → ${API_URL}/likes (토글)
   const removeFavorite = async (placeId) => {
     try {
       const uid = getUserId();
 
       // 좋아요 토글 API 호출
       await fetch(
-        `/api/likes?user_id=${uid}&place_id=${placeId}&place_type=restaurant`,
+        `${API_URL}/likes?user_id=${uid}&place_id=${placeId}&place_type=restaurant`,
         { method: "POST" }
       );
 

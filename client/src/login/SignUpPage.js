@@ -13,6 +13,7 @@ const SignUpPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
     const savedGuestId = localStorage.getItem('guest_id');
@@ -39,7 +40,7 @@ const SignUpPage = () => {
     }
 
     try {
-      const response = await fetch('/api/auth/signup', {
+      const response = await fetch(`${API_URL}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

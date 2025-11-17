@@ -12,12 +12,14 @@ function StoreMap() {
 
   const [stores, setStores] = useState([]);
 
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
     if (!latitude || !longitude) return;
 
     const fetchStores = async () => {
       try {
-        const res = await axios.get("/api/list", {
+        const res = await axios.get(`${API_URL}/list`, {
           params: {
             query: "내 주변 맛집",
             latitude,

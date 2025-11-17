@@ -4,12 +4,14 @@ import axios from 'axios';
 
 // 네이버 메뉴 API
 export function useMenu(placeId) {
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
+
   return useQuery(
     ['menu', placeId],
     async () => {
       if (!placeId) return null;
       try {
-        const response = await axios.get(`https://place-crawling.onrender.com/menu/menu?business_id=${placeId}`);
+        const response = await axios.get(`${API_URL}/menu/menu?business_id=${placeId}`);
         return response.data || [];
       } catch (error) {
         console.error('Menu fetch error:', error);
@@ -27,12 +29,14 @@ export function useMenu(placeId) {
 
 // 네이버 메뉴 그룹 API
 export function useMenuGroups(placeId) {
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
+  
   return useQuery(
     ['menuGroups', placeId],
     async () => {
       if (!placeId) return null;
       try {
-        const response = await axios.get(`https://place-crawling.onrender.com/menu/menuGroups?business_id=${placeId}`);
+        const response = await axios.get(`${API_URL}/menu/menuGroups?business_id=${placeId}`);
         return response.data || [];
       } catch (error) {
         console.error('Menu groups fetch error:', error);
@@ -55,7 +59,7 @@ export function useRestaurant(placeId) {
     async () => {
       if (!placeId) return null;
       try {
-        const response = await axios.get(`/api/restaurant/${placeId}`);
+        const response = await axios.get(`${API_URL}/restaurant/${placeId}`);
         return response.data;
       } catch (error) {
         console.error('Restaurant fetch error:', error);
@@ -77,7 +81,7 @@ export function useRestaurantHours(placeId) {
     async () => {
       if (!placeId) return [];
       try {
-        const response = await axios.get(`/api/restaurant/${placeId}/hours`);
+        const response = await axios.get(`${API_URL}/restaurant/${placeId}/hours`);
         return response.data || [];
       } catch (error) {
         console.error('Hours fetch error:', error);

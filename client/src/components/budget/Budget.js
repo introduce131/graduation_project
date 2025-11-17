@@ -13,6 +13,8 @@ function Budget() {
   const location = useLocationStore((state) => state.location);
   const navigate = useNavigate();
 
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
     const uid =
       localStorage.getItem("user_id") ||
@@ -53,15 +55,15 @@ function Budget() {
   try {
     const [foodRes, cafeRes, activityRes] = await Promise.all([
       fetch(
-        `/api/recommend/restaurant?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000&budget=${numericPrice}&people=${peopleCount}&total_limit=25`,
+        `${API_URL}/recommend/restaurant?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000&budget=${numericPrice}&people=${peopleCount}&total_limit=25`,
         { method: "POST" }
       ).then((res) => res.json()),
       fetch(
-        `/api/recommend/cafe?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000&budget=${numericPrice}&people=${peopleCount}&total_limit=25`,
+        `${API_URL}/recommend/cafe?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000&budget=${numericPrice}&people=${peopleCount}&total_limit=25`,
         { method: "POST" }
       ).then((res) => res.json()),
       fetch(
-        `/api/recommend/activity?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000`,
+        `${API_URL}/recommend/activity?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000`,
         { method: "POST" }
       ).then((res) => res.json()),
     ]);
