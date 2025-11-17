@@ -4,7 +4,6 @@
   padding: 0;
 }
 
-
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -36,10 +35,9 @@
   to { transform: rotate(360deg); }
 }
 
-
 .refresh-btn-wrapper {
   position: absolute;      // fixed -> absolute
-  bottom: -50px;            // pagination 점 아래로 충분히 띄움 이거 버튼 조절하는거임
+  bottom: -50px;           // pagination 점 아래로 충분히 띄움
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;            // 카드보다 위에 오도록
@@ -54,17 +52,17 @@
   cursor: pointer;
   font-size: 1rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-
 }
 
+/* 기본: 데스크탑 */
 .fullscreen-card {
-  width: 40%;        /* 기존 100% -> 90%로 줄임 */
-  height: 50vh;      /* 기존 80vh -> 70vh로 줄임 */
-  margin: 0 auto;    /* 가운데 정렬 */
+  width: 40%;
+  height: 50vh;
+  margin: 0 auto;
+  margin-top: 120px;
   background-size: cover;
   background-position: center;
   border-radius: 15px;
-  margin-top: 120px;
   position: relative;
   display: flex;
   align-items: flex-end;
@@ -74,11 +72,6 @@
   transition: transform 0.3s, box-shadow 0.3s;
   box-shadow: 0 10px 20px rgba(0,0,0,0.25);
 }
-
-// .fullscreen-card:hover {
-//   transform: scale(1.03);
-//   box-shadow: 0 15px 30px rgba(0,0,0,0.35);
-// }
 
 .overlay {
   width: 100%;
@@ -94,7 +87,180 @@
 }
 
 .overlay p {
-    margin-top: 20px;
+  margin-top: 20px;
   font-size: 1.1rem;
-  
+}
+
+/* 카테고리 라벨 (맛집/카페/여가) */
+.category-label {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.9;
+  margin-bottom: 8px;
+  background: rgba(0,0,0,0.45);
+  padding: 5px 12px;
+  display: inline-block;
+  border-radius: 20px;
+}
+
+
+
+
+@media (max-width: 1200px) {
+  .fullscreen-card {
+    width: 55%;
+    height: 48vh;
+  }
+}
+
+/* 992px 이하: 태블릿 */
+@media (max-width: 992px) {
+  .fullscreen-card {
+    width: 65%;
+    height: 45vh;
+    margin-top: 100px;
+  }
+
+  .overlay h2 {
+    font-size: 20px;
+  }
+
+  .overlay p {
+    font-size: 1rem;
+  }
+
+  .refresh-btn-wrapper {
+    bottom: -45px;
+  }
+}
+
+/* 768px 이하: 일반 모바일 / 작은 태블릿 */
+@media (max-width: 768px) {
+  .fullscreen-card {
+    width: 70%;
+    height: 42vh;         
+    margin-top: 90px;
+    border-radius: 12px;
+  }
+
+  .overlay {
+    padding: 14px;
+  }
+
+  .overlay h2 {
+    font-size: 18px;
+  }
+
+  .overlay p {
+    font-size: 0.95rem;
+    margin-top: 12px;
+  }
+
+  .category-label {
+    font-size: 13px;
+    padding: 4px 10px;
+  }
+
+  .refresh-btn-wrapper {
+    bottom: -40px;
+  }
+
+  .refresh-btn {
+    padding: 9px 18px;
+    font-size: 0.9rem;
+  }
+}
+
+/* 480px 이하: 작은 모바일 (아이폰 SE 등) */
+@media (max-width: 480px) {
+  .fullscreen-card {
+    width: 70%;
+    height: 38vh;        
+    margin-top: 70px;
+    border-radius: 10px;
+  }
+
+  .overlay {
+    padding: 12px;
+  }
+
+  .overlay h2 {
+    font-size: 16px;
+  }
+
+  .overlay p {
+    font-size: 0.85rem;
+    margin-top: 8px;
+  }
+
+  .category-label {
+    font-size: 12px;
+    padding: 4px 9px;
+    margin-bottom: 6px;
+  }
+
+  .refresh-btn-wrapper {
+    bottom: -35px;
+  }
+
+  .refresh-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  }
+}
+
+
+
+
+///////////////////////////////////////
+
+/* -------------------------------------
+   Splash Circle Loading
+------------------------------------- */
+.splash-circle-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;  /* 배경 white */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+
+  animation: splashFadeOut 0.4s ease-out forwards;
+  animation-delay: 1.3s;  /* 1.5초 후 사라짐 */
+}
+
+.circle-loader {
+  width: 55px;
+  height: 55px;
+  border: 6px solid #e0e0e0;
+  border-top-color: #ff6b6b;   /* 메인 색상 */
+  border-radius: 50%;
+  animation: spinCircle 1s linear infinite;
+}
+
+@keyframes spinCircle {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes splashFadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+/* 슬라이드 바깥에 표시되는 카테고리 라벨 */
+.slide-category-label {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: #333;
 }

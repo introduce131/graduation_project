@@ -6,6 +6,7 @@
   padding: 40px 20px;
   width: 100%;
   height: 70vh;
+  box-sizing: border-box;
 }
 
 .budget-form {
@@ -15,7 +16,6 @@
   width: 100%;
   max-width: 400px;
   border: 1px solid #ececec;
-  // box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   text-align: center;
 
   h2 {
@@ -30,12 +30,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
 
     label {
       font-weight: 500;
       font-size: 1rem;
       color: #555;
       flex: 1;
+      text-align: left;
     }
 
     input {
@@ -89,7 +91,6 @@
     border-radius: 10px;
     border: none;
     background-color: #ff4b6e;
-    //background: linear-gradient(90deg, #5a8dee, #63d0ff);
     color: #fff;
     font-size: 1.1rem;
     font-weight: 600;
@@ -101,3 +102,57 @@
     }
   }
 }
+
+/* =========================================
+   📱 반응형
+========================================= */
+
+/* 992px 이하 – 태블릿 */
+@media (max-width: 992px) {
+  .budget-main {
+    height: 65vh;
+    padding: 30px 16px;
+    box-sizing: border-box;
+  }
+
+  .budget-form {
+    padding: 60px 35px;
+    max-width: 380px;
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 24px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+
+      label {
+        font-size: 0.95rem;
+      }
+
+      input {
+        font-size: 0.95rem;
+        padding: 8px 12px;
+      }
+
+      .people-counter button {
+        width: 34px;
+        height: 34px;
+        font-size: 1.1rem;
+      }
+
+      .people-counter span {
+        font-size: 1.05rem;
+      }
+    }
+
+    .submit-btn {
+      font-size: 1rem;
+      padding: 10px 0;
+    }
+  }
+}
+
+
+

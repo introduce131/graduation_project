@@ -32,8 +32,16 @@ function ProductList() {
   const [isLoadingHours, setIsLoadingHours] = useState(true);
   const [routeTime, setRouteTime] = useState(null);
   const [locationError, setLocationError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // 최근 본 기록 (localStorage 저장)
+  // 서버에서 받은 is_liked 값으로 초기 좋아요 상태 설정
+  useEffect(() => {
+    if (restaurantData?.restaurant?.is_liked !== undefined) {
+      setIsFavorite(restaurantData.restaurant.is_liked);
+    }
+  }, [restaurantData]);
+
+  // 최근 본 기록 (localStorage 저장) — 이건 그대로 유지
   useEffect(() => {
     if (!store) return;
 
@@ -63,7 +71,36 @@ function ProductList() {
   const getUserId = () =>
     localStorage.getItem("user_id") || localStorage.getItem("guest_id");
 
-  // 사용자 활동 기록 함수
+  //  좋아요 토글 API
+  const toggleLikeOnServer = async () => {
+    const userId = getUserId();
+    if (!userId || !store?.place_id) {
+      console.warn("user_id 또는 place_id 없음, 좋아요 요청 취소");
+      return null;
+    }
+
+    try {
+      const res = await axios.post(
+        "/api/likes",
+        {},
+        {
+          params: {
+            user_id: userId,
+            place_id: store.place_id,
+            place_type: categoryType,
+          },
+          withCredentials: true,
+        }
+      );
+      console.log("Toggle like API 성공:", res.data);
+      return res.data; // 기대: { is_liked: true } 또는 { liked: true } 같은 형태
+    } catch (err) {
+      console.error("Toggle like API 에러:", err);
+      throw err;
+    }
+  };
+
+  // 사용자 활동 기록 함수 (view / click / like / dislike)
   const recordUserAction = async (actionType) => {
     try {
       const userId = getUserId();
@@ -72,8 +109,8 @@ function ProductList() {
 
       const endpoint =
         categoryType === "activity"
-          ? "http://localhost:5000/api/action/activity"
-          : "http://localhost:5000/api/action/restaurant";
+          ? "/api/action/activity"
+          : "/api/action/restaurant";
 
       const response = await axios.post(
         `${endpoint}?user_id=${userId}&place_id=${placeId}&action_type=${actionType}`,
@@ -94,10 +131,15 @@ function ProductList() {
 
   // API 호출 함수들
   const fetchRestaurantData = async (placeId) => {
+    const userId = getUserId(); // localStorage or cookie 등
+    
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/restaurant/${placeId}`
-      );
+      const url = userId
+        ? `/api/restaurant/${placeId}?user_id=${userId}`
+        : `/api/restaurant/${placeId}`;
+
+      const response = await axios.get(url);
+
       return response.data;
     } catch (error) {
       console.error("Restaurant data fetch error:", error);
@@ -105,10 +147,11 @@ function ProductList() {
     }
   };
 
+
   const fetchRestaurantHours = async (placeId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/restaurant/${placeId}/hours`
+        `/api/restaurant/${placeId}/hours`
       );
       return response.data || [];
     } catch (error) {
@@ -120,7 +163,7 @@ function ProductList() {
   const fetchNaverMenu = async (placeId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/menu/menu?place_id=${placeId}`
+        `/api/menu/menu?place_id=${placeId}`
       );
       return response.data || [];
     } catch (error) {
@@ -132,7 +175,7 @@ function ProductList() {
   const fetchNaverMenuGroups = async (placeId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/menu/menuGroups?place_id=${placeId}`
+        `/api/menu/menuGroups?place_id=${placeId}`
       );
       return response.data || [];
     } catch (error) {
@@ -207,45 +250,38 @@ function ProductList() {
     loadData();
   }, [store?.place_id, categoryType]);
 
-  // 찜 상태 확인
-  useEffect(() => {
-    if (store?.place_id) {
-      const favorites =
-        JSON.parse(localStorage.getItem("myfavorites")) || [];
-      setIsFavorite(
-        favorites.some((fav) => fav.place_id === store.place_id)
-      );
-    }
-  }, [store?.place_id]);
+  // ✅ 기존: localStorage 에서 찜 여부 확인 → 제거
+  // useEffect(() => {
+  //   if (store?.place_id) {
+  //     const favorites =
+  //       JSON.parse(localStorage.getItem("myfavorites")) || [];
+  //     setIsFavorite(
+  //       favorites.some((fav) => fav.place_id === store.place_id)
+  //     );
+  //   }
+  // }, [store?.place_id]);
 
+  // ✅ 좋아요 버튼 클릭 핸들러: API + 행동로그만 남기고 localStorage X
   const toggleFavorite = async () => {
-    const favorites =
-      JSON.parse(localStorage.getItem("myfavorites")) || [];
-    const newFavoriteState = !isFavorite;
+    const prev = isFavorite;
+    const next = !prev;
+    setIsFavorite(next); // optimistic
 
-    if (newFavoriteState) {
-      const newFavorite = {
-        place_id: store.place_id,
-        place_name: store.place_name,
-        thumbnail: store.thumbnail,
-        category: store.category,
-        reviewCount: store.reviewCount,
-        type: categoryType,
-      };
-      localStorage.setItem(
-        "myfavorites",
-        JSON.stringify([...favorites, newFavorite])
-      );
-      await recordLikeAction(true);
-    } else {
-      const updatedFavorites = favorites.filter(
-        (fav) => fav.place_id !== store.place_id
-      );
-      localStorage.setItem("myfavorites", JSON.stringify(updatedFavorites));
-      await recordLikeAction(false);
+    try {
+      const result = await toggleLikeOnServer();
+      // 서버가 명확한 상태를 반환하면 그걸로 교정
+      if (result && typeof result.is_liked !== "undefined") {
+        setIsFavorite(!!result.is_liked);
+      } else if (result && typeof result.liked !== "undefined") {
+        setIsFavorite(!!result.liked);
+      } else {
+        // 서버 응답에 상태가 없으면 그냥 낙관적 업데이트 유지
+      }
+      await recordLikeAction(next);
+    } catch (e) {
+      setIsFavorite(prev);
+      alert("좋아요 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
-
-    setIsFavorite(newFavoriteState);
   };
 
   // 상세정보 클릭 시 click 액션 저장
@@ -327,6 +363,12 @@ function ProductList() {
   };
 
   const menu = integratedMenu();
+  
+  // 검색이 적용된 메뉴 목록
+  const filteredMenu = menu.filter((item) =>
+    item.menu_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const isActivity = categoryType === "activity";
 
   if (!store) return <p>정보를 불러올 수 없습니다.</p>;
@@ -418,11 +460,22 @@ function ProductList() {
           <div className="menu_wrap">
             <h2>가장 인기 있는 메뉴</h2>
             <p>최근 많은 분들이 주문한 메뉴</p>
+
+            {/* 🔍 검색창 */}
+            <input
+              type="text"
+              placeholder="메뉴 검색하기..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="search-input"
+            />
+
+            {/* 로딩 중 */}
             {isLoading ? (
               <p>메뉴 정보를 불러오는 중...</p>
-            ) : menu.length > 0 ? (
+            ) : filteredMenu.length > 0 ? (
               <ul>
-                {menu.map((item, index) => (
+                {filteredMenu.map((item, index) => (
                   <li key={item.menu_id || index}>
                     <div>
                       <div className="img">
@@ -432,17 +485,18 @@ function ProductList() {
                           <img src={no_img} alt="대체 이미지" />
                         )}
                       </div>
+
                       <div className="menu_info">
                         <h3>{item.menu_name}</h3>
+
                         <p>
                           {item.menu_price
                             ? item.menu_price.toLocaleString() + "원"
                             : "가격 정보 없음"}
                         </p>
+
                         {item.description && (
-                          <p className="menu_description">
-                            {item.description}
-                          </p>
+                          <p className="menu_description">{item.description}</p>
                         )}
                       </div>
                     </div>
@@ -450,7 +504,7 @@ function ProductList() {
                 ))}
               </ul>
             ) : (
-              <p>메뉴 정보가 없습니다.</p>
+              <p>검색 결과가 없습니다.</p>
             )}
           </div>
         )}

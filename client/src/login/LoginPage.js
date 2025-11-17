@@ -85,7 +85,7 @@ const LoginPage = () => {
       }
 
       // 일반 로그인 API 호출
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ const LoginPage = () => {
   const generateGuestId = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/auth/guest');
+      const response = await fetch('/api/auth/guest');
       if (response.ok) {
         const data = await response.json();
         const newGuestId = data.user_id;

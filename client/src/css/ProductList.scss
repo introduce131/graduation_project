@@ -202,6 +202,40 @@
   h2 { margin: 0; }
   p { margin-top: 15px; }
 
+
+  .search-input {
+    min-width: 180px;
+    width: 40%;
+    padding: 10px 14px;
+    font-size: 14px;
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    background: #fff;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+
+    /* 오른쪽 정렬 */
+    display: block;
+    margin-left: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    transition: all 0.2s ease;
+
+    /* 포커스 효과 */
+    &:focus {
+      border-color: #6e6e6e;
+      box-shadow: 0 3px 8px rgba(0, 122, 255, 0.2);
+    }
+
+    /* placeholder 스타일 */
+    &::placeholder {
+      color: #aaa;
+    }
+  }
+
   ul {
     margin-top: 25px;
     padding: 0;
@@ -310,72 +344,159 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 모바일 대응: 600px 이하 */
-@media (max-width: 600px) {
-.store_info{
-  margin-left: 10px;
-  padding: 5px;
-   
+
+
+
+@media (max-width: 1024px) {
+  .section {
+    width: 90%;
+    max-width: 600px;
+  }
 }
 
-.section .menu_wrap h2{
-  margin-left: 10px;
+/* 768px 이하 : 섹션 풀폭 + 내부 여백 */
+@media (max-width: 768px) {
+  .section {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  .section .info_wrap {
+    height: 220px; /* 너무 납작하지 않게 살짝 높여줌 */
+  }
+
+  /* 영업시간 버튼(우측 배치 → 카드 근처로) */
+  .section .hours-button {
+    right: 10px;
+    bottom: -40px;
+    font-size: 11px;
+    padding: 4px 8px;
+  }
 }
-.section .menu_wrap p{
-    margin-left: 10px;
-}
+
+/* 600px 이하 : 완전 모바일 레이아웃 */
+@media (max-width: 600px) {
+  .activity_wrap {
+    margin-top: 40px;
+  }
 
   .section {
     width: 100%;
-    margin: 0 auto;
+    padding: 0 12px;
+  }
 
-    .info_wrap {
-      height: auto;
+  .section .info_wrap {
+    height: auto;           /* 비율에 맞게 늘어나도록 */
+    min-height: 200px;
+  }
 
-      .store_img_frame { display: none; }
+  .section .info_wrap > .store_img_frame {
+    height: 200px;
+  }
 
-      .store_info {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        margin-left: 0;
-        width: 100%;
-        text-align: left;
-        padding: 10px;
-        line-height: 1.4;
+  
+  .section .info_wrap > .store_info {
+    position: static;
+    width: 100%;
+    margin: 12px 0 0 0;
+    box-sizing: border-box;
+    border-radius: 8px;
+  }
 
-        h2 { font-size: 18px; }
-        p { font-size: 14px; }
-      }
-    }
+  .section .info_wrap > .store_info h2 {
+    font-size: 18px;
+  }
 
-    .menu_wrap {
-      ul {
-        li {
-          div { flex-direction: column; }
+  .section .info_wrap > .store_info p {
+    font-size: 13px;
+  }
 
-          .img { display: none; }
+  /* 메뉴 리스트 카드 : 세로 정렬 */
+  .section .menu_wrap {
+    margin-top: 40px;
+  }
 
-          .menu_info {
-            margin-left: 0;
-            h3 { font-size: 16px; }
-            p { font-size: 14px; }
-          }
-        }
-      }
-    }
+  .section .menu_wrap ul li div {
+    flex-direction: column;
+  }
 
-    .hours-button {
-      position: relative;
-      right: auto;
-      bottom: auto;
-      margin-top: 10px;
-      font-size: 12px;
-    }
+  .section .menu_wrap ul li div .img {
+    width: 100%;
+    height: 180px;
+  }
+
+  .section .menu_wrap ul li div .menu_info {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .section .menu_wrap ul li div .menu_info h3 {
+    font-size: 16px;
+  }
+
+  .section .menu_wrap ul li div .menu_info p {
+    font-size: 13px;
+    -webkit-line-clamp: 3;
+  }
+
+  /* 영업시간 버튼: 카드 아래로 붙이기 */
+  .section .hours-button {
+    position: static;
+    margin: 12px 0 0 auto;
+  }
+
+  /* 모달 내부 폰트 살짝 줄이기 */
+  .hours-modal .modal-header h3 {
+    font-size: 16px;
+  }
+
+  .hours-modal .modal-content .info-section h4 {
+    font-size: 14px;
+  }
+
+  .hours-modal .modal-content .info-section p {
+    font-size: 13px;
+  }
+}
+
+/* 400px 이하*/
+@media (max-width: 400px) {
+  .section {
+    padding: 0 8px;
+  }
+
+  .section .info_wrap > .store_img_frame {
+    height: 180px;
+  }
+
+  .section .menu_wrap ul li div .img {
+    height: 160px;
+  }
+
+  .section .menu_wrap ul li div .menu_info h3 {
+    font-size: 15px;
+  }
+
+  .section .menu_wrap ul li div .menu_info p {
+    font-size: 12px;
+  }
+
+  .section .hours-button {
+    font-size: 10px;
+    padding: 3px 8px;
   }
 
   .hours-modal {
     width: 95%;
-    max-width: 95%;
+  }
+
+  .hours-modal .modal-header {
+    padding: 14px;
+  }
+
+  .hours-modal .modal-content {
+    padding: 14px;
   }
 }

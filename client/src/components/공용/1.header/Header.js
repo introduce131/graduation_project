@@ -39,7 +39,7 @@ function Header() {
     // 3. 아무 ID도 없으면 게스트 API 호출
     try {
       console.log('게스트 ID 발급 요청');
-      const response = await fetch('http://localhost:5000/api/auth/guest');
+      const response = await fetch('/api/auth/guest');
       
       if (response.ok) {
         const data = await response.json();

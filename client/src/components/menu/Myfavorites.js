@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import css from "../../css/Myfavorites.scss";
 import Header from "../공용/1.header/Header";
 import Footer from "../공용/3.footer/Footer";
@@ -9,22 +8,52 @@ function MyFavorites() {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 로컬 스토리지에서 찜 목록 불러오기
-  useEffect(() => {
-    const loadFavorites = () => {
-      const storedFavorites = JSON.parse(localStorage.getItem("myfavorites")) || [];
-      setFavorites(storedFavorites);
-      setLoading(false);
-    };
+  // user_id 가져오기 (로그인/게스트 모두 대응)
+  const getUserId = () => {
+    return localStorage.getItem("user_id") || "";
+  };
 
-    loadFavorites();
+  // API로 좋아요 목록 로드
+  const loadFavoritePlaces = async () => {
+    const uid = getUserId();
+    if (!uid) {
+      setFavorites([]);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/likes/list?user_id=${uid}`);
+      const data = await res.json();
+      setFavorites(data.liked_places || []);
+    } catch (err) {
+      console.error("좋아요 목록 API 오류:", err);
+      setFavorites([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadFavoritePlaces();
   }, []);
 
-  // 찜 제거 함수
-  const removeFavorite = (placeId) => {
-    const updatedFavorites = favorites.filter(fav => fav.place_id !== placeId);
-    localStorage.setItem("myfavorites", JSON.stringify(updatedFavorites));
-    setFavorites(updatedFavorites);
+  // 찜 해제 → /api/likes (토글)
+  const removeFavorite = async (placeId) => {
+    try {
+      const uid = getUserId();
+
+      // 좋아요 토글 API 호출
+      await fetch(
+        `/api/likes?user_id=${uid}&place_id=${placeId}&place_type=restaurant`,
+        { method: "POST" }
+      );
+
+      // 다시 목록 갱신
+      loadFavoritePlaces();
+    } catch (err) {
+      console.error("좋아요 해제 오류:", err);
+    }
   };
 
   if (loading) {
@@ -35,19 +64,19 @@ function MyFavorites() {
     <>
       <Header />
       <div className="my-favorites-container">
-        <h1>내 찜 목록</h1>
-        
+        <h1>내 즐겨찾기 목록</h1>
+
         {favorites.length === 0 ? (
           <div className="empty-message">
-            <p>찜한 가게가 없습니다.</p>
+            <p>아직 즐겨찾기한 가게가 없습니다.</p>
             <Link to="/" className="go-to-main">메인 페이지로 이동</Link>
           </div>
         ) : (
           <div className="favorites-list">
-            {favorites.map((store, index) => (
+            {favorites.map((store) => (
               <div key={store.place_id} className="favorite-item">
                 <Link
-                  to={`/products`} // store 기준으로 URL
+                  to={`/products`}
                   state={{ store }}
                   className="menu-item store-link"
                 >
@@ -61,14 +90,14 @@ function MyFavorites() {
                   <div className="store-info">
                     <h3>{store.place_name}</h3>
                     <p className="category">{store.category}</p>
-                    {/* <p className="reviews">리뷰 {store.reviewCount || 0}개</p> */}
                   </div>
                 </Link>
-                <button 
+
+                <button
                   onClick={(e) => {
                     e.preventDefault();
                     removeFavorite(store.place_id);
-                  }} 
+                  }}
                   className="remove-btn"
                 >
                   찜 해제

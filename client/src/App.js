@@ -19,6 +19,7 @@ import Mypage from './components/menu/Mypage';
 import BudgetResult from './components/budget/BudgetResult';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import MyQR from './components/MyQR';
 
 function App() {
   // 앱이 처음 시작하면 위치 값 불러오기
@@ -48,6 +49,7 @@ function App() {
           <Route path="/products" element={<ProductList />} />
           <Route path="/Myfavorites" element={<MyFavorites />} />
           <Route path="/mypage" element={<Mypage />} />
+          <Route path="*" element={<MyQR/>} />
         </Routes>
       </div>
  

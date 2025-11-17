@@ -11,8 +11,6 @@ import userHover from '../../../images/icon/user_color.png';
 import compassHover from '../../../images/icon/compass_color.png';
 import heartHover from '../../../images/icon/heart_color.png';
 
-
-
 function Footer() {
     return (
       <footer>
@@ -21,7 +19,7 @@ function Footer() {
           <ImageHover defaultImg={heart} hoverImg={heartHover} label="즐겨찾기" to="/myfavorites" />
           <ImageHover defaultImg={compass} hoverImg={compassHover} label="코스" to="/budget" />
           <ImageHover defaultImg={user} hoverImg={userHover} label="MY" to="/mypage" />
-        </ul>
+        </ul> 
       </footer>
     );
   }

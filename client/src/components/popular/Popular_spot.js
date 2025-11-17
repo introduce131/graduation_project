@@ -86,7 +86,7 @@ function Popular_spot() {
         const params = { lat: parseFloat(location.lat), lng: parseFloat(location.lng), radius: 5000 };
 
         // 카테고리
-        const resCategories = await axios.get("http://localhost:5000/api/category/restaurant", { params });
+        const resCategories = await axios.get("/api/category/restaurant", { params });
         if (resCategories.data && Array.isArray(resCategories.data)) {
           const uniqueCategories = [...new Set(resCategories.data.map(item =>
             item.category || item.category_name || item.category_group || "기타"
@@ -95,7 +95,7 @@ function Popular_spot() {
         }
 
         // 추천 가게 랜덤 2개
-        const resStores = await axios.get("http://localhost:5000/api/restaurants", { params });
+        const resStores = await axios.get("/api/restaurants", { params });
         if (Array.isArray(resStores.data)) {
           const shuffled = resStores.data.sort(() => 0.5 - Math.random());
           setRecommendedStores(shuffled.slice(0, 2));

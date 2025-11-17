@@ -55,7 +55,7 @@ export function useRestaurant(placeId) {
     async () => {
       if (!placeId) return null;
       try {
-        const response = await axios.get(`http://localhost:5000/api/restaurant/${placeId}`);
+        const response = await axios.get(`/api/restaurant/${placeId}`);
         return response.data;
       } catch (error) {
         console.error('Restaurant fetch error:', error);
@@ -77,7 +77,7 @@ export function useRestaurantHours(placeId) {
     async () => {
       if (!placeId) return [];
       try {
-        const response = await axios.get(`http://localhost:5000/api/restaurant/${placeId}/hours`);
+        const response = await axios.get(`/api/restaurant/${placeId}/hours`);
         return response.data || [];
       } catch (error) {
         console.error('Hours fetch error:', error);

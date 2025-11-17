@@ -122,10 +122,72 @@
   }
 }
 
-/* 모바일 대응: 600px 이하 */
+
+/* ===============================
+   📱 My Favorites 반응형 최적화
+   (원래 코드 밑에 그대로 추가)
+=============================== */
+
+/* 1024px 이하: 리스트 폭 약간 줄이기 */
+@media (max-width: 1024px) {
+  .my-favorites-container {
+    padding: 16px;
+
+    .favorites-list {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+  }
+}
+
+/* 768px 이하: 카드 하나씩, 폭 넓게 */
+@media (max-width: 768px) {
+  .my-favorites-container {
+    padding: 16px 12px;
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 24px;
+    }
+
+    .favorites-list {
+      width: 100%;
+      max-width: 100%;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .favorite-item {
+      .store-link {
+        flex-direction: row; /* 아직은 가로 배치 유지 */
+      }
+
+      .store-image {
+        width: 110px;
+        height: 110px;
+      }
+
+      .store-info {
+        padding: 12px;
+
+        h3 {
+          font-size: 16px;
+        }
+
+        .category,
+        .reviews {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+
+/* 600px 이하: 완전 모바일(위 이미지, 아래 정보) 형태 */
 @media (max-width: 600px) {
   .my-favorites-container {
-    padding: 15px;
+    padding: 14px 10px;
 
     h1 {
       font-size: 20px;
@@ -133,66 +195,45 @@
     }
 
     .favorites-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+      width: 100%;
+      max-width: 100%;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
 
-      .favorite-item {
-        display: flex;
-        flex-direction: column;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 12px;
+    .favorite-item {
+      .store-link {
+        flex-direction: column; /* 이미지 위, 정보 아래 */
+      }
 
-        &:hover {
-          transform: translateY(0);
+      .store-image {
+        width: 100%;
+        height: 180px;
+      }
+
+      .store-info {
+        padding: 10px 12px;
+
+        h3 {
+          font-size: 16px;
         }
 
-        .store-link {
-          display: block;
-          margin-bottom: 8px;
+        .category,
+        .reviews {
+          font-size: 13px;
         }
+      }
 
-        .store-image {
-          display: none;
-        }
-
-        .store-info {
-          padding: 0;
-
-          h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-          }
-
-          .category {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 3px;
-          }
-
-          .reviews {
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 3px;
-          }
-        }
-
-        .remove-btn {
-          position: relative;
-          top: auto;
-          right: auto;
-          align-self: flex-end;
-          margin-top: 8px;
-          font-size: 12px;
-          padding: 4px 8px;
-        }
+      .remove-btn {
+        top: 8px;
+        right: 8px;
+        font-size: 11px;
+        padding: 4px 8px;
       }
     }
 
     .empty-message {
-      padding: 30px 0;
+      padding: 40px 0;
 
       p {
         font-size: 16px;
@@ -203,10 +244,46 @@
         font-size: 14px;
       }
     }
+  }
+}
 
-    .loading {
-      padding: 30px;
-      font-size: 16px;
+/* 400px 이하: 아주 작은 화면용 */
+@media (max-width: 400px) {
+  .my-favorites-container {
+    padding: 10px 8px;
+
+    h1 {
+      font-size: 18px;
+    }
+
+    .favorite-item {
+      .store-image {
+        height: 160px;
+      }
+
+      .store-info {
+        padding: 8px 10px;
+
+        h3 {
+          font-size: 15px;
+        }
+
+        .category,
+        .reviews {
+          font-size: 12px;
+        }
+      }
+
+      .remove-btn {
+        font-size: 10px;
+        padding: 3px 7px;
+      }
+    }
+
+    .empty-message {
+      p {
+        font-size: 15px;
+      }
     }
   }
 }

@@ -17,7 +17,7 @@ function StoreMap() {
 
     const fetchStores = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/list", {
+        const res = await axios.get("/api/list", {
           params: {
             query: "내 주변 맛집",
             latitude,

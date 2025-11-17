@@ -53,15 +53,15 @@ function Budget() {
   try {
     const [foodRes, cafeRes, activityRes] = await Promise.all([
       fetch(
-        `http://localhost:5000/api/recommend/restaurant?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000&budget=${numericPrice}&people=${peopleCount}&total_limit=25`,
+        `/api/recommend/restaurant?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000&budget=${numericPrice}&people=${peopleCount}&total_limit=25`,
         { method: "POST" }
       ).then((res) => res.json()),
       fetch(
-        `http://localhost:5000/api/recommend/cafe?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000&budget=${numericPrice}&people=${peopleCount}&total_limit=25`,
+        `/api/recommend/cafe?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000&budget=${numericPrice}&people=${peopleCount}&total_limit=25`,
         { method: "POST" }
       ).then((res) => res.json()),
       fetch(
-        `http://localhost:5000/api/recommend/activity?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000`,
+        `/api/recommend/activity?user_id=${userId}&lat=${location.lat}&lng=${location.lng}&radius=5000`,
         { method: "POST" }
       ).then((res) => res.json()),
     ]);

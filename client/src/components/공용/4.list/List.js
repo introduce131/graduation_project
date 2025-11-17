@@ -32,7 +32,7 @@ function List() {
 
   // 서버 ping
   useEffect(() => {
-    axios.get("http://localhost:5000/api/ping").catch(() => {});
+    axios.get("/api/ping").catch(() => {});
   }, []);
 
   // 카테고리 데이터 가져오기
@@ -44,7 +44,7 @@ function List() {
       }
       try {
         const params = { lat: parseFloat(latitude), lng: parseFloat(longitude), radius: 5000 };
-        const res = await axios.get("http://localhost:5000/api/category/restaurant", { params });
+        const res = await axios.get("/api/category/restaurant", { params });
         if (res.data && Array.isArray(res.data)) {
           const uniqueCategories = [...new Set(res.data.map(item => item.category || item.category_name || item.category_group || "기타"))];
           setCategories(uniqueCategories);
@@ -63,7 +63,7 @@ function List() {
     try {
       setLoading(true);
       const params = { lat: parseFloat(latitude), lng: parseFloat(longitude), category_group: category, radius: 10000 };
-      const res = await axios.get("http://localhost:5000/api/restaurants", { params });
+      const res = await axios.get("/api/restaurants", { params });
       setStores(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error(err);
@@ -90,19 +90,27 @@ function List() {
   function PrevArrow({ onClick }) { return <div className="slick-arrow prev-arrow" onClick={onClick}>&lt;</div>; }
 
   const sliderSettings = {
-    dots: false,
-    infinite: false,
-    speed: 400,
-    slidesToShow: 5,
-    slidesToScroll: 3,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 4, slidesToScroll: 2 } },
-      { breakpoint: 768, settings: { slidesToShow: 3, slidesToScroll: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 2, slidesToScroll: 1 } },
-    ],
-  };
+  dots: false,
+  infinite: false,
+  speed: 400,
+  slidesToShow: 5,
+  slidesToScroll: 3,
+  nextArrow: <NextArrow />,
+  prevArrow: <PrevArrow />,
+  responsive: [
+    { breakpoint: 1024, settings: { slidesToShow: 4, slidesToScroll: 2 } },
+    { breakpoint: 768,  settings: { slidesToShow: 3, slidesToScroll: 2 } },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        variableWidth: true, // ★ 내용 기준으로 폭 계산
+      },
+    },
+  ],
+};
+
 
   return (
     <div className="list-wrap">

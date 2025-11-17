@@ -19,6 +19,7 @@ app.use(
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 // ---------------------------
@@ -35,7 +36,7 @@ app.get("/api/hello", (req, res) => {
 // ---------------------------
 // Restaurant API
 // ---------------------------
-//  식당 검색 (/restaurants)
+//  식당 검색 (/restaurants)s
 app.get("/api/restaurants", async (req, res) => {
   try {
     const response = await axios.get(`${PY_API_BASE}/restaurants`, { params: req.query });
